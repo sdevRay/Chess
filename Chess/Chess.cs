@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Chess
 {
-	public class Game1 : Game
+	public class Chess : Game
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
@@ -22,7 +22,7 @@ namespace Chess
 		private int _cellHeight;
 
 
-		public Game1()
+		public Chess()
 		{
 			IsMouseVisible = true;
 
@@ -36,15 +36,17 @@ namespace Chess
 		}
 		protected override void Initialize()
 		{
-			base.Initialize();
-		}
-		protected override void LoadContent()
-		{
 			_cellWidth = ScreenWidth / _cellCount;
 			_cellHeight = ScreenHeight / _cellCount;
 
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 			_sprites = new List<Sprite>();
+
+			base.Initialize();
+		}
+		protected override void LoadContent()
+		{
+
 			var cellTexture = Content.Load<Texture2D>("Cell");
 
 			BuildChessBoard(cellTexture);
@@ -59,25 +61,30 @@ namespace Chess
 
 					if (cell.AlgebraicNotation == "G6")
 					{
-						_sprites.Add(
-							new Pawn(pawnTexture)
-							{
-								Position = cell.CellOrigin(pawnTexture),
-								Color = Color.White
-							}
-						);
+
+						var piece = new Pawn(pawnTexture)
+						{
+							Position = cell.CellOrigin(pawnTexture),
+							AlgebraicNotation = cell.AlgebraicNotation,
+							Color = Color.White
+						};
+
+						_sprites.Add(piece);
 					}
 
 					if (cell.AlgebraicNotation == "A6")
 					{
-						_sprites.Add(
-							new Pawn(pawnTexture)
-							{
-								Position = cell.CellOrigin(pawnTexture),
-								Color = Color.White
-							}
-						);
+
+						var piece = new Pawn(pawnTexture)
+						{
+							Position = cell.CellOrigin(pawnTexture),
+							AlgebraicNotation = cell.AlgebraicNotation,
+							Color = Color.White
+						};
+
+						_sprites.Add(piece);
 					}
+
 
 				}
 			}
@@ -98,6 +105,8 @@ namespace Chess
 			{
 				sprite.Update(gameTime, _sprites);
 			}
+
+
 
 			base.Update(gameTime);
 		}
