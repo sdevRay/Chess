@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 
 namespace Chess
@@ -59,7 +58,20 @@ namespace Chess
 				{
 					var cell = (sprite as Cell);
 
-					if (cell.AlgebraicNotation == "G6")
+					if (cell.AlgebraicNotation == "C6")
+					{
+
+						var piece = new Pawn(pawnTexture)
+						{
+							Position = cell.CellOrigin(pawnTexture),
+							AlgebraicNotation = cell.AlgebraicNotation,
+							Color = Color.White
+						};
+
+						_sprites.Add(piece);
+					}
+
+					if (cell.AlgebraicNotation == "B6")
 					{
 
 						var piece = new Pawn(pawnTexture)
@@ -79,13 +91,11 @@ namespace Chess
 						{
 							Position = cell.CellOrigin(pawnTexture),
 							AlgebraicNotation = cell.AlgebraicNotation,
-							Color = Color.White
+							Color = Color.Black
 						};
 
 						_sprites.Add(piece);
 					}
-
-
 				}
 			}
 		}
@@ -106,9 +116,25 @@ namespace Chess
 				sprite.Update(gameTime, _sprites);
 			}
 
-
+			PostProcess();
 
 			base.Update(gameTime);
+		}
+
+		private void PostProcess()
+		{
+			for (var i = 0; i < _sprites.Count; i++)
+			{
+				var sprite = _sprites[i];
+				if (sprite is Piece)
+				{
+					if ((sprite as Piece).IsRemoved)
+					{
+						_sprites.RemoveAt(i);
+						i--;
+					}
+				}
+			}
 		}
 		protected override void Draw(GameTime gameTime)
 		{

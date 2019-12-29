@@ -50,7 +50,6 @@
     <Compile Include="Sprites\Pawn.cs" />
     <Compile Include="Sprites\Piece.cs" />
     <Compile Include="Sprites\Sprite.cs" />
-    <Compile Include="Types\Color.cs" />
     <Compile Include="Types\Type.cs" />
   </ItemGroup>
   <ItemGroup>
