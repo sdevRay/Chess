@@ -1,5 +1,4 @@
-﻿using Chess.Types;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -11,32 +10,21 @@ namespace Chess.Sprites
 	{
 		private bool _isSelected;
 		public bool IsRemoved;
-		public string AlgebraicNotation;
-		private Vector2 _prevPosition;
 
 		public Piece(Texture2D texture) : base(texture)
 		{
-
 		}
 
 		public override void Update(GameTime gameTime, IEnumerable<Sprite> sprites)
 		{
+			if (sprites.OfType<Piece>().Where(res => res != this).Any(res => res._isSelected))
+				return; // ONLY EVALUATE THE SELECTED ONE
+
 			var mouseState = Mouse.GetState();
 
+			var mouseHover = this.Rectangle.Contains(mouseState.Position);
 			var isPressed = mouseState.LeftButton == ButtonState.Pressed;
 			var isReleased = mouseState.LeftButton == ButtonState.Released;
-
-			foreach (var sprite in sprites)
-			{
-				if (sprite is Piece)
-				{
-					if (sprite == this)
-						continue;
-
-					if ((sprite as Piece)._isSelected) // EXIT SO WE ONLY EVALUATE SELECTED PIECE IF IT'S NOT 'THIS'
-						return;
-				}
-			}
 
 			if (this._isSelected)
 			{
@@ -45,60 +33,43 @@ namespace Chess.Sprites
 				this.Position.X = originPosX;
 				this.Position.Y = originPosY;
 
-				var intersectingCellAlgebraicNotation = sprites.OfType<Cell>().Where(res => this.Rectangle.Intersects(res.Rectangle)).Select(res => res.AlgebraicNotation).FirstOrDefault();
-
-				var occupyingPiece = sprites.OfType<Piece>().Where(res => res != this).Where(res => res.Color == this.Color).Where(res => res.AlgebraicNotation.Equals(intersectingCellAlgebraicNotation)).FirstOrDefault();
-
-				if(occupyingPiece != null)
-				{
-					System.Diagnostics.Debug.WriteLine(occupyingPiece.AlgebraicNotation);
-
-				}
-
 				this.Position = Vector2.Clamp(this.Position, new Vector2(0, 0), new Vector2(Chess.ScreenWidth - this.Rectangle.Width, Chess.ScreenHeight - this.Rectangle.Height));
-
-				_prevPosition = new Vector2(this.Position.X, this.Position.Y);
 			}
 
-			if (this.Rectangle.Contains(mouseState.Position))
+			if (isPressed && mouseHover)
 			{
-				if (isPressed)
+				this._isSelected = true;
+			}
+
+			if (isReleased && mouseHover)
+			{
+				this._isSelected = false;
+
+				var targetCell = sprites.OfType<Cell>().Where(res => res.Rectangle.Contains(mouseState.Position)).FirstOrDefault();
+
+				if (targetCell != null)
 				{
-					this._isSelected = true;
-				}
+					var occupyingPiece = sprites.OfType<Piece>().Where(res => res != this).Where(res => res.Location.Equals(targetCell.Location)).FirstOrDefault();
 
-				if (isReleased)
-				{
-					this._isSelected = false;
-
-					var newCell = sprites.OfType<Cell>().Where(res => res.Rectangle.Intersects(this.Rectangle)).FirstOrDefault();
-
-					if (newCell != null)
+					if (occupyingPiece != null)
 					{
-						var occupyingPiece = sprites.OfType<Piece>().Where(res => res.AlgebraicNotation.Equals(newCell.AlgebraicNotation)).FirstOrDefault();
-
-						if (occupyingPiece != null)
+						if (occupyingPiece.Color.Equals(this.Color))
 						{
-							if (this.Color.Equals(occupyingPiece.Color))
-							{
-								var startingCell = sprites.OfType<Cell>().Where(res => res.AlgebraicNotation == this.AlgebraicNotation).FirstOrDefault();
+							var originCell = sprites.OfType<Cell>().Where(res => res.Location.Equals(this.Location)).FirstOrDefault();
 
-								if (startingCell != null)
-								{
-									this.Position = startingCell.CellOrigin(this.Texture);
-									return;
-								}
-							}
-							else
+							if (originCell != null)
 							{
-								occupyingPiece.IsRemoved = true;
+								this.Position = originCell.CellOrigin(this.Texture);
 								return;
 							}
 						}
 
-						this.AlgebraicNotation = newCell.AlgebraicNotation;
-						this.Position = newCell.CellOrigin(this.Texture);
+						occupyingPiece.IsRemoved = true;
+						return;
 					}
+
+					this.Location = targetCell.Location;
+					this.Position = targetCell.CellOrigin(this.Texture);
 				}
 			}
 

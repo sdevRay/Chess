@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Chess.Models;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace Chess.Sprites
@@ -8,13 +9,9 @@ namespace Chess.Sprites
 	public class Sprite
 	{
 		public Texture2D Texture;
-
 		public Vector2 Position;
-		//public Vector2 Velocity;
-		 
-		//public float Speed;
-		//public Input Input;
-		public Color Color = Color.Blue;	
+		public Location Location;
+		public Color Color = Color.Green;	
 
 		public Rectangle Rectangle
 		{
@@ -45,6 +42,11 @@ namespace Chess.Sprites
 		public virtual void Draw(SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(Texture, Position, Color);
+		}
+
+		public override string ToString()
+		{
+			return $"{GetType().Name} Row: {Location.Row} Column: {Location.Column} AN: {Location.AlgebraicNotation}";
 		}
 	}
 }

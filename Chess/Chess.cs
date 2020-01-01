@@ -1,4 +1,5 @@
-﻿using Chess.Sprites;
+﻿using Chess.Models;
+using Chess.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -58,43 +59,45 @@ namespace Chess
 				{
 					var cell = (sprite as Cell);
 
-					if (cell.AlgebraicNotation == "C6")
+					if (cell.Location.Row == 1)
 					{
-
-						var piece = new Pawn(pawnTexture)
+						if(cell.Location.Column == 0)
 						{
-							Position = cell.CellOrigin(pawnTexture),
-							AlgebraicNotation = cell.AlgebraicNotation,
-							Color = Color.White
-						};
+							var piece = new Pawn(pawnTexture)
+							{
+								Position = cell.CellOrigin(pawnTexture),
+								Color = Color.Black,
+								Location = new Location()
+								{
+									Row = cell.Location.Row,
+									Column = cell.Location.Column,
+									AlgebraicNotation = cell.Location.AlgebraicNotation
+								}
+							};
 
-						_sprites.Add(piece);
+							_sprites.Add(piece);
+						}
+		
 					}
 
-					if (cell.AlgebraicNotation == "B6")
+					if(cell.Location.Row == 6)
 					{
-
-						var piece = new Pawn(pawnTexture)
+						if (cell.Location.Column == 1)
 						{
-							Position = cell.CellOrigin(pawnTexture),
-							AlgebraicNotation = cell.AlgebraicNotation,
-							Color = Color.White
-						};
+							var piece = new Pawn(pawnTexture)
+							{
+								Position = cell.CellOrigin(pawnTexture),
+								Color = Color.White,
+								Location = new Location()
+								{
+									Row = cell.Location.Row,
+									Column = cell.Location.Column,
+									AlgebraicNotation = cell.Location.AlgebraicNotation
+								}
+							};
 
-						_sprites.Add(piece);
-					}
-
-					if (cell.AlgebraicNotation == "A6")
-					{
-
-						var piece = new Pawn(pawnTexture)
-						{
-							Position = cell.CellOrigin(pawnTexture),
-							AlgebraicNotation = cell.AlgebraicNotation,
-							Color = Color.Black
-						};
-
-						_sprites.Add(piece);
+							_sprites.Add(piece);
+						}
 					}
 				}
 			}
@@ -198,8 +201,13 @@ namespace Chess
 					_sprites.Add(new Cell(cellTexture)
 					{
 						Position = new Vector2(cellPositionX, cellPositionY),
-						AlgebraicNotation = algebraicNotation,
-						Color = cellColor
+						Color = cellColor,
+						Location = new Location()
+						{
+							Row = i,
+							Column = x,
+							AlgebraicNotation = algebraicNotation
+						}
 					}
 					);
 				}
