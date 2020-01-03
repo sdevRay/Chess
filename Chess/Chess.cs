@@ -1,6 +1,7 @@
 ﻿using Chess.Models;
 using Chess.Sprites;
 using Chess.Types;
+using Chess.Types.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,8 +16,7 @@ namespace Chess
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		public static int ScreenWidth = 800;
-		public static int ScreenHeight = 800;
+
 
 		private List<Sprite> _sprites;
 
@@ -32,15 +32,15 @@ namespace Chess
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 
-			graphics.PreferredBackBufferWidth = ScreenWidth;
-			graphics.PreferredBackBufferHeight = ScreenHeight;
+			graphics.PreferredBackBufferWidth = Global.SCREEN_WIDTH;
+			graphics.PreferredBackBufferHeight = Global.SCREEN_HEIGHT;
 			graphics.ApplyChanges();
 
 		}
 		protected override void Initialize()
 		{
-			_cellWidth = ScreenWidth / _cellCount;
-			_cellHeight = ScreenHeight / _cellCount;
+			_cellWidth = Global.SCREEN_WIDTH / _cellCount;
+			_cellHeight = Global.SCREEN_HEIGHT / _cellCount;
 
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 			_sprites = new List<Sprite>();
@@ -82,7 +82,7 @@ namespace Chess
 		
 					}
 
-					if(cell.Location.Grid.Y == 2)
+					if(cell.Location.Grid.Y == 6)
 					{
 						if (cell.Location.Grid.X == 1)
 						{

@@ -1,4 +1,5 @@
 ﻿using Chess.Types;
+using Chess.Types.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,7 +13,6 @@ namespace Chess.Sprites
 		public bool IsSelected;
 		public bool IsRemoved;
 		private IEnumerable<Cell> _movementCells;
-		public Type type;
 		public Piece(Texture2D texture) : base(texture)
 		{
 		}
@@ -40,33 +40,33 @@ namespace Chess.Sprites
 				this.Position.X = originPosX;
 				this.Position.Y = originPosY;
 
-				this.Position = Vector2.Clamp(this.Position, new Vector2(0, 0), new Vector2(Chess.ScreenWidth - this.Rectangle.Width, Chess.ScreenHeight - this.Rectangle.Height));
+				this.Position = Vector2.Clamp(this.Position, new Vector2(0, 0), new Vector2(Global.SCREEN_WIDTH - this.Rectangle.Width, Global.SCREEN_HEIGHT - this.Rectangle.Height));
+
+				_movementCells?.ToList().ForEach(res => res.Color = res.HighlightColor);
+			} 
+			else
+			{
+				_movementCells?.ToList().ForEach(res => res.Color = res.DefaultColor);
 			}
-
-
 
 			if (isPressed && mouseHover)
 			{
-
 				this.IsSelected = true;	
-				_movementCells?.ToList().ForEach(res => res.Color = res.HighlightColor);
 			}
 
 			if (isReleased)
 			{
+				// TODO
+				// CHECK MOVEMENT CELL FOR OCCUPYING PIECE
+				// SET BOUNDRY AS TO NOT GO OUTSIDE CHESSBOARD 
+
 				this.IsSelected = false;
-
-				_movementCells?.ToList().ForEach(res => res.Color = res.DefaultColor);
-
-				//var targetCell = sprites.OfType<Cell>().Where(res => res.Rectangle.Contains(mouseState.Position)).FirstOrDefault();
-
 
 				if (_movementCells != null)
 				{
 					foreach (var movementCell in _movementCells)
 					{
-
-
+						//System.Diagnostics.Debug.WriteLine(movementCell.Location.Grid.Y);
 						if (movementCell.Rectangle.Contains(this.Rectangle))
 						{
 							this.Position = movementCell.CellOrigin(this.Texture);

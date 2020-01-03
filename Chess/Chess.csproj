@@ -43,14 +43,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Chess.cs" />
-    <Compile Include="Models\Location.cs" />
+    <Compile Include="Types\Constants\Global.cs" />
+    <Compile Include="Types\Models\Location.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sprites\Cell.cs" />
     <Compile Include="Sprites\Pawn.cs" />
     <Compile Include="Sprites\Piece.cs" />
     <Compile Include="Sprites\Sprite.cs" />
-    <Compile Include="Types\Type.cs" />
+    <Compile Include="Types\Enumerations\Pieces.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
