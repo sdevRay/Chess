@@ -1,9 +1,12 @@
 ﻿using Chess.Models;
 using Chess.Sprites;
+using Chess.Types;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Chess
 {
@@ -59,18 +62,17 @@ namespace Chess
 				{
 					var cell = (sprite as Cell);
 
-					if (cell.Location.Row == 1)
+					if (cell.Location.Grid.Y == 1)
 					{
-						if(cell.Location.Column == 0)
+						if(cell.Location.Grid.X == 0)
 						{
 							var piece = new Pawn(pawnTexture)
 							{
 								Position = cell.CellOrigin(pawnTexture),
-								Color = Color.Black,
+								Color = Color.Black, 
 								Location = new Location()
 								{
-									Row = cell.Location.Row,
-									Column = cell.Location.Column,
+									Grid = new Point(cell.Location.Grid.X, cell.Location.Grid.Y),
 									AlgebraicNotation = cell.Location.AlgebraicNotation
 								}
 							};
@@ -80,18 +82,18 @@ namespace Chess
 		
 					}
 
-					if(cell.Location.Row == 6)
+					if(cell.Location.Grid.Y == 2)
 					{
-						if (cell.Location.Column == 1)
+						if (cell.Location.Grid.X == 1)
 						{
 							var piece = new Pawn(pawnTexture)
 							{
 								Position = cell.CellOrigin(pawnTexture),
 								Color = Color.White,
+								
 								Location = new Location()
 								{
-									Row = cell.Location.Row,
-									Column = cell.Location.Column,
+									Grid = new Point(cell.Location.Grid.X, cell.Location.Grid.Y),
 									AlgebraicNotation = cell.Location.AlgebraicNotation
 								}
 							};
@@ -107,19 +109,32 @@ namespace Chess
 		{
 			// TODO: Unload any non ContentManager content here
 		}
-		protected override void Update(GameTime gameTime)
+		protected override async void Update(GameTime gameTime)
 		{
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
 			//System.Diagnostics.Debug.WriteLine(_mouseState.X.ToString() + " " + _mouseState.Y.ToString());
 
-			foreach (var sprite in _sprites)
+			await Task.Run(() =>
 			{
-				sprite.Update(gameTime, _sprites);
-			}
+				Parallel.ForEach(_sprites, (sprite) =>
+				{
+					sprite.Update(gameTime, _sprites);
+				});
+			});
 
-			PostProcess();
+			//_sprites.ForEach(res => res.Update(gameTime, mouseState, _sprites));
+			//PostProcess();
+
+			_sprites.RemoveAll(res =>
+			{
+				if (res is Piece)
+					if((res as Piece).IsRemoved)
+						return true;
+				
+				return false;
+			});
 
 			base.Update(gameTime);
 		}
@@ -144,12 +159,7 @@ namespace Chess
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			spriteBatch.Begin();
-
-			foreach (var sprite in _sprites)
-			{
-				sprite.Draw(spriteBatch);
-			}
-
+			_sprites.ForEach(res => res.Draw(spriteBatch));
 			spriteBatch.End();
 
 			base.Draw(gameTime);
@@ -159,41 +169,33 @@ namespace Chess
 		{
 			var board = new Cell[_cellCount, _cellCount];
 
-			for (var i = 0; i < board.GetLength(0); i++)
+			for (var x = 0; x < board.GetLength(0); x++)
 			{
-				var anRow = _cellCount - i;
+				var anRow = _cellCount - x;
 
-				for (var x = 0; x < board.GetLength(1); x++)
+				for (var y = 0; y < board.GetLength(1); y++)
 				{
 					Color cellColor;
-					var evenRow = (i % 2 == 0);
-					var evenColumn = (x % 2 == 0);
+					var evenRow = (x % 2 == 0);
+					var evenColumn = (y % 2 == 0);
 
 					if (evenRow)
 					{
 						if (evenColumn)
-						{
 							cellColor = Color.White;
-						}
 						else
-						{
 							cellColor = Color.LightBlue;
-						}
 					}
 					else // Odd Row
 					{
 						if (!evenColumn)
-						{
 							cellColor = Color.White;
-						}
 						else
-						{
 							cellColor = Color.LightBlue;
-						}
 					}
 
 					var cellPositionX = _cellWidth * x;
-					var cellPositionY = _cellHeight * i;
+					var cellPositionY = _cellHeight * y;
 
 					var anCol = 65 + x;
 					var algebraicNotation = (char)anCol + "" + anRow;
@@ -201,11 +203,10 @@ namespace Chess
 					_sprites.Add(new Cell(cellTexture)
 					{
 						Position = new Vector2(cellPositionX, cellPositionY),
-						Color = cellColor,
+						DefaultColor = cellColor,
 						Location = new Location()
 						{
-							Row = i,
-							Column = x,
+							Grid = new Point(x, y),
 							AlgebraicNotation = algebraicNotation
 						}
 					}

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Chess.Types;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -8,16 +9,22 @@ namespace Chess.Sprites
 {
 	public class Piece : Sprite
 	{
-		private bool _isSelected;
+		public bool IsSelected;
 		public bool IsRemoved;
-
+		private IEnumerable<Cell> _movementCells;
+		public Type type;
 		public Piece(Texture2D texture) : base(texture)
 		{
 		}
 
+		public virtual void SetMovementCells(IEnumerable<Cell> movementCells)
+		{
+			_movementCells = movementCells;
+		}
+
 		public override void Update(GameTime gameTime, IEnumerable<Sprite> sprites)
 		{
-			if (sprites.OfType<Piece>().Where(res => res != this).Any(res => res._isSelected))
+			if (sprites.OfType<Piece>().Where(res => res != this).Any(res => res.IsSelected))
 				return; // ONLY EVALUATE THE SELECTED ONE
 
 			var mouseState = Mouse.GetState();
@@ -26,7 +33,7 @@ namespace Chess.Sprites
 			var isPressed = mouseState.LeftButton == ButtonState.Pressed;
 			var isReleased = mouseState.LeftButton == ButtonState.Released;
 
-			if (this._isSelected)
+			if (this.IsSelected)
 			{
 				var originPosX = mouseState.X - (this.Rectangle.Width / 2);
 				var originPosY = mouseState.Y - (this.Rectangle.Height / 2);
@@ -36,41 +43,70 @@ namespace Chess.Sprites
 				this.Position = Vector2.Clamp(this.Position, new Vector2(0, 0), new Vector2(Chess.ScreenWidth - this.Rectangle.Width, Chess.ScreenHeight - this.Rectangle.Height));
 			}
 
+
+
 			if (isPressed && mouseHover)
 			{
-				this._isSelected = true;
+
+				this.IsSelected = true;	
+				_movementCells?.ToList().ForEach(res => res.Color = res.HighlightColor);
 			}
 
-			if (isReleased && mouseHover)
+			if (isReleased)
 			{
-				this._isSelected = false;
+				this.IsSelected = false;
 
-				var targetCell = sprites.OfType<Cell>().Where(res => res.Rectangle.Contains(mouseState.Position)).FirstOrDefault();
+				_movementCells?.ToList().ForEach(res => res.Color = res.DefaultColor);
 
-				if (targetCell != null)
+				//var targetCell = sprites.OfType<Cell>().Where(res => res.Rectangle.Contains(mouseState.Position)).FirstOrDefault();
+
+
+				if (_movementCells != null)
 				{
-					var occupyingPiece = sprites.OfType<Piece>().Where(res => res != this).Where(res => res.Location.Equals(targetCell.Location)).FirstOrDefault();
-
-					if (occupyingPiece != null)
+					foreach (var movementCell in _movementCells)
 					{
-						if (occupyingPiece.Color.Equals(this.Color))
+
+
+						if (movementCell.Rectangle.Contains(this.Rectangle))
 						{
-							var originCell = sprites.OfType<Cell>().Where(res => res.Location.Equals(this.Location)).FirstOrDefault();
-
-							if (originCell != null)
-							{
-								this.Position = originCell.CellOrigin(this.Texture);
-								return;
-							}
+							this.Position = movementCell.CellOrigin(this.Texture);
+							this.Location = movementCell.Location;
 						}
-
-						occupyingPiece.IsRemoved = true;
-						return;
+						else
+						{
+						var originCell = sprites.OfType<Cell>().Where(res => res.Location.Equals(this.Location)).FirstOrDefault();
+						this.Position = originCell.CellOrigin(this.Texture);
+						}
 					}
-
-					this.Location = targetCell.Location;
-					this.Position = targetCell.CellOrigin(this.Texture);
 				}
+
+					//this.Position = originCell.CellOrigin(this.Texture);
+					//return;
+				
+
+
+				//var occupyingPiece = sprites.OfType<Piece>().Where(res => res != this).Where(res => res.Location.Equals(targetCell.Location)).FirstOrDefault();
+
+				//if (occupyingPiece != null)
+				//{
+				//	if (occupyingPiece.Color.Equals(this.Color))
+				//	{
+				//		var originCell = sprites.OfType<Cell>().Where(res => res.Location.Equals(this.Location)).FirstOrDefault();
+
+				//		if (originCell != null)
+				//		{
+				//			this.Position = originCell.CellOrigin(this.Texture);
+				//			return;
+				//		}
+				//	}
+
+				//	occupyingPiece.IsRemoved = true;
+				//	return;
+				//}
+
+				//this.Location = targetCell.Location;
+				//this.Position = targetCell.CellOrigin(this.Texture);
+
 			}
 
 			base.Update(gameTime, sprites);
