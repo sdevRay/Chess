@@ -16,7 +16,7 @@ namespace Chess
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-
+		//private MouseState oldState;
 
 		private List<Sprite> _sprites;
 
@@ -109,32 +109,31 @@ namespace Chess
 		{
 			// TODO: Unload any non ContentManager content here
 		}
-		protected override async void Update(GameTime gameTime)
+		protected override void Update(GameTime gameTime)
 		{
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			//System.Diagnostics.Debug.WriteLine(_mouseState.X.ToString() + " " + _mouseState.Y.ToString());
+			_sprites.ForEach(res => res.Update(gameTime, _sprites));
 
-			await Task.Run(() =>
-			{
-				Parallel.ForEach(_sprites, (sprite) =>
-				{
-					sprite.Update(gameTime, _sprites);
-				});
-			});
+			//await Task.Run(() =>
+			//{
+			//	Parallel.ForEach(_sprites, (sprite) =>
+			//	{
+			//		sprite.Update(gameTime, _sprites);
+			//	});
+			//});
 
-			//_sprites.ForEach(res => res.Update(gameTime, mouseState, _sprites));
 			//PostProcess();
 
-			_sprites.RemoveAll(res =>
-			{
-				if (res is Piece)
-					if((res as Piece).IsRemoved)
-						return true;
+			//_sprites.RemoveAll(res =>
+			//{
+			//	if (res is Piece)
+			//		if((res as Piece).IsRemoved)
+			//			return true;
 				
-				return false;
-			});
+			//	return false;
+			//});
 
 			base.Update(gameTime);
 		}
