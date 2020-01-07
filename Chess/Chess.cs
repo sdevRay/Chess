@@ -1,13 +1,9 @@
-﻿using Chess.Models;
-using Chess.Sprites;
-using Chess.Types;
+﻿using Chess.Sprites;
 using Chess.Types.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Chess
 {
@@ -62,40 +58,32 @@ namespace Chess
 				{
 					var cell = (sprite as Cell);
 
-					if (cell.Location.Grid.Y == 1)
+					if (cell.Location.Y == 1)
 					{
-						if(cell.Location.Grid.X == 0)
+						if (cell.Location.X == 0)
 						{
-							var piece = new Pawn(pawnTexture)
+							var piece = new Rook(pawnTexture)
 							{
 								Position = cell.CellOrigin(pawnTexture),
-								Color = Color.Black, 
-								Location = new Location()
-								{
-									Grid = new Point(cell.Location.Grid.X, cell.Location.Grid.Y),
-									AlgebraicNotation = cell.Location.AlgebraicNotation
-								}
+								Color = Color.Black,
+								Location = new Point(cell.Location.X, cell.Location.Y)
 							};
 
 							_sprites.Add(piece);
 						}
-		
+
 					}
 
-					if(cell.Location.Grid.Y == 6)
+					if (cell.Location.Y == 6)
 					{
-						if (cell.Location.Grid.X == 1)
+						if (cell.Location.X == 1)
 						{
 							var piece = new Pawn(pawnTexture)
 							{
 								Position = cell.CellOrigin(pawnTexture),
-								Color = Color.White,
-								
-								Location = new Location()
-								{
-									Grid = new Point(cell.Location.Grid.X, cell.Location.Grid.Y),
-									AlgebraicNotation = cell.Location.AlgebraicNotation
-								}
+								Color = Color.Black,
+								Location = new Point(cell.Location.X, cell.Location.Y)
+
 							};
 
 							_sprites.Add(piece);
@@ -131,7 +119,7 @@ namespace Chess
 			//	if (res is Piece)
 			//		if((res as Piece).IsRemoved)
 			//			return true;
-				
+
 			//	return false;
 			//});
 
@@ -199,16 +187,12 @@ namespace Chess
 					var anCol = 65 + x;
 					var algebraicNotation = (char)anCol + "" + anRow;
 
-					_sprites.Add(new Cell(cellTexture)
-					{
-						Position = new Vector2(cellPositionX, cellPositionY),
-						DefaultColor = cellColor,
-						Location = new Location()
+						_sprites.Add(new Cell(cellTexture)
 						{
-							Grid = new Point(x, y),
-							AlgebraicNotation = algebraicNotation
+							Position = new Vector2(cellPositionX, cellPositionY),
+							DefaultColor = cellColor,
+							Location = new Point(x, y)
 						}
-					}
 					);
 				}
 			}

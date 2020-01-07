@@ -1,7 +1,5 @@
-﻿using Chess.Models;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 namespace Chess.Sprites
@@ -10,7 +8,7 @@ namespace Chess.Sprites
 	{
 		public Texture2D Texture;
 		public Vector2 Position;
-		public Location Location;
+		public Point Location;
 		public Color Color;	
 
 		public Rectangle Rectangle
@@ -46,7 +44,7 @@ namespace Chess.Sprites
 
 		public override string ToString()
 		{
-			return $"{GetType().Name} X: {Location.Grid.X} Y: {Location.Grid.Y} AN: {Location.AlgebraicNotation}";
+			return $"{GetType().Name} X: {Location.X} Y: {Location.Y}";
 		}
 	}
 }

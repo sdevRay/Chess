@@ -2,16 +2,16 @@
 {
 	public static class IntExtensions
 	{
-		public static int MAXIMUM { get; } = 7;
-		public static int MINUMUM { get; } = 0;
+		public static int MAX { get; } = 7;
+		public static int MIN { get; } = 0;
 
-		public static int BoundryClamp(this int value)
+		public static int Clamp(this int value)
 		{
-			if (value > MAXIMUM)
-				value = MAXIMUM;
+			if (value > MAX)
+				value = MAX;
 
-			if (value < MINUMUM)
-				value = MINUMUM;
+			if (value < MIN)
+				value = MIN;
 
 			return value;
 		}

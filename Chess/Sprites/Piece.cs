@@ -9,16 +9,20 @@ namespace Chess.Sprites
 {
 	public class Piece : Sprite
 	{
+		private MouseState _previousState;
+
+		private IEnumerable<Point> _locations;
+		private IEnumerable<Cell> _locationCells;
+
 		public bool IsSelected;
 		public bool IsRemoved;
-		private IEnumerable<Cell> _movementCells;
 		public Piece(Texture2D texture) : base(texture)
 		{
 		}
 
-		public virtual void SetMovementCells(IEnumerable<Cell> movementCells)
+		public virtual void SetLocations(IEnumerable<Point> locations)
 		{
-			_movementCells = movementCells;
+			_locations = locations;
 		}
 
 		public override void Update(GameTime gameTime, IEnumerable<Sprite> sprites)
@@ -26,36 +30,57 @@ namespace Chess.Sprites
 			if (sprites.OfType<Piece>().Where(res => res != this).Any(res => res.IsSelected))
 				return; // ONLY EVALUATE THE SELECTED ONE
 
-			var mouseState = Mouse.GetState();
+			var newState = Mouse.GetState();
 
-			if (Rectangle.Contains(mouseState.Position))
+			var cells = sprites.OfType<Cell>();
+			if (_locations != null)
 			{
-				if (mouseState.LeftButton == ButtonState.Pressed)
+				_locationCells = cells.Where(res => _locations.Contains(res.Location));
+
+				foreach (var lCell in _locationCells)
 				{
-					IsSelected = true;
+
+					if (IsSelected)
+						lCell.Color = lCell.HighlightColor;
+					else
+						lCell.Color = lCell.DefaultColor;
 				}
+			}
 
-				if (mouseState.LeftButton == ButtonState.Released)
+			if (Rectangle.Contains(newState.Position))
+			{
+				if (newState.LeftButton == ButtonState.Pressed && _previousState.LeftButton == ButtonState.Released)
 				{
-					var cells = sprites.OfType<Cell>().Where(res => res.Rectangle.Contains(mouseState.Position));
-					System.Diagnostics.Debug.WriteLine(cells.Count());
+					IsSelected = !IsSelected;
 
-					foreach (var cell in cells)
+					if (!IsSelected)
 					{
-						Position = cell.CellOrigin(Texture);
-					}
+						var locationCell = _locationCells.Where(res => res.Rectangle.Contains(newState.Position)).FirstOrDefault();
+						if (locationCell != null)
+						{
+							Position = locationCell.CellOrigin(Texture);
+							Location = locationCell.Location;
+						}
+						else
+						{
+							var startingCell = cells.Where(res => res.Location.Equals(Location)).FirstOrDefault();
+							Position = startingCell.CellOrigin(Texture);
+						}
 
-					IsSelected = false;
+					}
 				}
 			}
 
 			if (IsSelected)
 			{
-				Position.X = mouseState.X - (Rectangle.Width / 2);
-				Position.Y = mouseState.Y - (Rectangle.Height / 2);
+
+				Position.X = newState.X - (Rectangle.Width / 2);
+				Position.Y = newState.Y - (Rectangle.Height / 2);
 
 				Position = Vector2.Clamp(Position, new Vector2(0, 0), new Vector2(Global.SCREEN_WIDTH - Rectangle.Width, Global.SCREEN_HEIGHT - Rectangle.Height));
 			}
+
+			_previousState = newState;
 
 			base.Update(gameTime, sprites);
 		}
