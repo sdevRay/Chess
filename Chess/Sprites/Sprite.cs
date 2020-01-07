@@ -32,9 +32,8 @@ namespace Chess.Sprites
 			Texture = texture;
 		}
 
-		public virtual void Update(GameTime gameTime, IEnumerable<Sprite> sprites)
+		public virtual void Update(GameTime gameTime, List<Piece> sprites, List<Cell> chessBoard)
 		{
-
 		}
 
 		public virtual void Draw(SpriteBatch spriteBatch)

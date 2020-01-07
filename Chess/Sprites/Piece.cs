@@ -11,8 +11,8 @@ namespace Chess.Sprites
 	{
 		private MouseState _previousState;
 
-		private IEnumerable<Point> _locations;
-		private IEnumerable<Cell> _locationCells;
+		public List<Point> AvailableLocations = new List<Point>();
+		public Point StartingLocation;
 
 		public bool IsSelected;
 		public bool IsRemoved;
@@ -20,32 +20,28 @@ namespace Chess.Sprites
 		{
 		}
 
-		public virtual void SetLocations(IEnumerable<Point> locations)
+		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
-			_locations = locations;
-		}
-
-		public override void Update(GameTime gameTime, IEnumerable<Sprite> sprites)
-		{
-			if (sprites.OfType<Piece>().Where(res => res != this).Any(res => res.IsSelected))
+			var allOtherPieces = pieces.OfType<Piece>().Where(res => res != this);
+			if (allOtherPieces.Any(res => res.IsSelected))
 				return; // ONLY EVALUATE THE SELECTED ONE
 
 			var newState = Mouse.GetState();
 
-			var cells = sprites.OfType<Cell>();
-			if (_locations != null)
-			{
-				_locationCells = cells.Where(res => _locations.Contains(res.Location));
+			//if (_locations != null)
+			//{
+			//	_locationCells = cells.Where(res => _locations.Contains(res.Location)).ToList();
 
-				foreach (var lCell in _locationCells)
-				{
+			//	foreach (var lCell in _locationCells)
+			//	{
 
-					if (IsSelected)
-						lCell.Color = lCell.HighlightColor;
-					else
-						lCell.Color = lCell.DefaultColor;
-				}
-			}
+			//		if (IsSelected)
+			//			lCell.Color = lCell.HighlightColor;
+			//		else
+			//			lCell.Color = lCell.DefaultColor;
+			//	}
+			//}
+
 
 			if (Rectangle.Contains(newState.Position))
 			{
@@ -55,17 +51,21 @@ namespace Chess.Sprites
 
 					if (!IsSelected)
 					{
-						var locationCell = _locationCells.Where(res => res.Rectangle.Contains(newState.Position)).FirstOrDefault();
-						if (locationCell != null)
+
+
+						var cell = chessBoard.FirstOrDefault(res => res.Rectangle.Contains(newState.Position));
+						if (AvailableLocations.Contains(cell.Location))
 						{
-							Position = locationCell.CellOrigin(Texture);
-							Location = locationCell.Location;
+							Position = cell.CellOrigin(Texture);
+							Location = cell.Location;
 						}
 						else
 						{
-							var startingCell = cells.Where(res => res.Location.Equals(Location)).FirstOrDefault();
-							Position = startingCell.CellOrigin(Texture);
+							Position = chessBoard.FirstOrDefault(res => res.Location.Equals(Location)).CellOrigin(Texture);
 						}
+
+
+						//System.Diagnostics.Debug.WriteLine(availableLocation.ToString());
 
 					}
 				}
@@ -73,6 +73,12 @@ namespace Chess.Sprites
 
 			if (IsSelected)
 			{
+				chessBoard.ForEach(res => {
+					if (AvailableLocations.Contains(res.Location))
+					{
+						res.Color = res.HighlightColor;
+					}
+				});
 
 				Position.X = newState.X - (Rectangle.Width / 2);
 				Position.Y = newState.Y - (Rectangle.Height / 2);
@@ -82,7 +88,7 @@ namespace Chess.Sprites
 
 			_previousState = newState;
 
-			base.Update(gameTime, sprites);
+			base.Update(gameTime, pieces, chessBoard);
 		}
 	}
 }

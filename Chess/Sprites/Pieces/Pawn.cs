@@ -12,12 +12,7 @@ namespace Chess.Sprites
 		{
 		}
 
-		public override void SetLocations(IEnumerable<Point> locations)
-		{
-			base.SetLocations(locations);
-		}
-
-		public override void Update(GameTime gameTime, IEnumerable<Sprite> sprites)
+		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
 			if (IsSelected)
 			{
@@ -31,10 +26,9 @@ namespace Chess.Sprites
 					new Point(Location.X + -MovementRange.X, movementY)
 				};
 
-				SetLocations(locations);
 
 			}
-			base.Update(gameTime, sprites);
+			base.Update(gameTime, pieces, chessBoard);
 		}
 
 	}

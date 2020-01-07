@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Chess.Extensions;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Chess.Sprites
 {
@@ -11,31 +13,26 @@ namespace Chess.Sprites
 		{
 		}
 
-		public override void SetLocations(IEnumerable<Point> locations)
+		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
-			base.SetLocations(locations);
-		}
 
-		public override void Update(GameTime gameTime, IEnumerable<Sprite> sprites)
-		{
 			if (IsSelected)
 			{
-				var locations = new List<Point>();
 				
-				for(var i = 0; i <= MovementRange.X; i++)
-				{
-					locations.Add(new Point(i, Location.Y));
-				}
+					for(var i = 0; i <= MovementRange.X; i++)
+					{
+						AvailableLocations.Add(new Point(i, Location.Y));
+					}
 
-				for (var i = 0; i <= MovementRange.Y; i++)
-				{
-					locations.Add(new Point(Location.X, i));
-				}
+					for (var i = 0; i <= MovementRange.Y; i++)
+					{
+						AvailableLocations.Add(new Point(Location.X, i));
+					}
+				
 
-				SetLocations(locations);
 			}
 
-			base.Update(gameTime, sprites);
+			base.Update(gameTime, pieces, chessBoard);
 		}
 
 	}

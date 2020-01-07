@@ -14,12 +14,8 @@ namespace Chess
 
 		//private MouseState oldState;
 
-		private List<Sprite> _sprites;
-
-		private readonly int _cellCount = 8;
-		private int _cellWidth;
-		private int _cellHeight;
-
+		private List<Piece> _pieces;
+		private List<Cell> _chessBoard;
 
 		public Chess()
 		{
@@ -35,11 +31,8 @@ namespace Chess
 		}
 		protected override void Initialize()
 		{
-			_cellWidth = Global.SCREEN_WIDTH / _cellCount;
-			_cellHeight = Global.SCREEN_HEIGHT / _cellCount;
-
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-			_sprites = new List<Sprite>();
+			_pieces = new List<Piece>();
 
 			base.Initialize();
 		}
@@ -47,48 +40,34 @@ namespace Chess
 		{
 
 			var cellTexture = Content.Load<Texture2D>("Cell");
-
-			BuildChessBoard(cellTexture);
+			_chessBoard = new CellGrid(cellTexture).ChessBoard;
 
 			var pawnTexture = Content.Load<Texture2D>("Pawn");
 
-			foreach (var sprite in _sprites.ToArray())
+			foreach(var cell in _chessBoard)
 			{
-				if (sprite is Cell)
+				if (cell.Location.Equals(new Point(0, 0)))
 				{
-					var cell = (sprite as Cell);
-
-					if (cell.Location.Y == 1)
+					var piece = new Rook(pawnTexture)
 					{
-						if (cell.Location.X == 0)
-						{
-							var piece = new Rook(pawnTexture)
-							{
-								Position = cell.CellOrigin(pawnTexture),
-								Color = Color.Black,
-								Location = new Point(cell.Location.X, cell.Location.Y)
-							};
+						Position = cell.CellOrigin(pawnTexture),
+						Color = Color.Black,
+						Location = new Point(cell.Location.X, cell.Location.Y)
+					};
 
-							_sprites.Add(piece);
-						}
+					_pieces.Add(piece);
+				}
 
-					}
-
-					if (cell.Location.Y == 6)
+				if (cell.Location.Equals(new Point(5, 5)))
+				{
+					var piece = new Rook(pawnTexture)
 					{
-						if (cell.Location.X == 1)
-						{
-							var piece = new Pawn(pawnTexture)
-							{
-								Position = cell.CellOrigin(pawnTexture),
-								Color = Color.Black,
-								Location = new Point(cell.Location.X, cell.Location.Y)
+						Position = cell.CellOrigin(pawnTexture),
+						Color = Color.Black,
+						Location = new Point(cell.Location.X, cell.Location.Y)
+					};
 
-							};
-
-							_sprites.Add(piece);
-						}
-					}
+					_pieces.Add(piece);
 				}
 			}
 		}
@@ -102,7 +81,7 @@ namespace Chess
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			_sprites.ForEach(res => res.Update(gameTime, _sprites));
+			_pieces.ForEach(res => res.Update(gameTime, _pieces, _chessBoard));
 
 			//await Task.Run(() =>
 			//{
@@ -128,14 +107,14 @@ namespace Chess
 
 		private void PostProcess()
 		{
-			for (var i = 0; i < _sprites.Count; i++)
+			for (var i = 0; i < _pieces.Count; i++)
 			{
-				var sprite = _sprites[i];
+				var sprite = _pieces[i];
 				if (sprite is Piece)
 				{
 					if ((sprite as Piece).IsRemoved)
 					{
-						_sprites.RemoveAt(i);
+						_pieces.RemoveAt(i);
 						i--;
 					}
 				}
@@ -146,56 +125,11 @@ namespace Chess
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			spriteBatch.Begin();
-			_sprites.ForEach(res => res.Draw(spriteBatch));
+			_chessBoard.ForEach(res => res.Draw(spriteBatch));
+			_pieces.ForEach(res => res.Draw(spriteBatch));
 			spriteBatch.End();
 
 			base.Draw(gameTime);
-		}
-
-		private void BuildChessBoard(Texture2D cellTexture)
-		{
-			var board = new Cell[_cellCount, _cellCount];
-
-			for (var x = 0; x < board.GetLength(0); x++)
-			{
-				var anRow = _cellCount - x;
-
-				for (var y = 0; y < board.GetLength(1); y++)
-				{
-					Color cellColor;
-					var evenRow = (x % 2 == 0);
-					var evenColumn = (y % 2 == 0);
-
-					if (evenRow)
-					{
-						if (evenColumn)
-							cellColor = Color.White;
-						else
-							cellColor = Color.LightBlue;
-					}
-					else // Odd Row
-					{
-						if (!evenColumn)
-							cellColor = Color.White;
-						else
-							cellColor = Color.LightBlue;
-					}
-
-					var cellPositionX = _cellWidth * x;
-					var cellPositionY = _cellHeight * y;
-
-					var anCol = 65 + x;
-					var algebraicNotation = (char)anCol + "" + anRow;
-
-						_sprites.Add(new Cell(cellTexture)
-						{
-							Position = new Vector2(cellPositionX, cellPositionY),
-							DefaultColor = cellColor,
-							Location = new Point(x, y)
-						}
-					);
-				}
-			}
 		}
 	}
 }

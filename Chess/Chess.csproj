@@ -43,6 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Chess.cs" />
+    <Compile Include="Sprites\ChessBoard.cs" />
     <Compile Include="Sprites\Pieces\Rook.cs" />
     <Compile Include="Types\Constants\Global.cs" />
     <Compile Include="Program.cs" />
