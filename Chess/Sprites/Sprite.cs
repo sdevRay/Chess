@@ -9,7 +9,7 @@ namespace Chess.Sprites
 		public Texture2D Texture;
 		public Vector2 Position;
 		public Point Location;
-		public Color Color;	
+		public Color Color = Color.White;
 
 		public Rectangle Rectangle
 		{

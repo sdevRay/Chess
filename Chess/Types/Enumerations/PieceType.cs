@@ -1,6 +1,6 @@
 ﻿namespace Chess.Types
 {
-	public enum Pieces
+	public enum PieceType
 	{
 		Pawn,
 		Knight,

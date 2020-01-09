@@ -1,9 +1,12 @@
 ﻿using Chess.Sprites;
+using Chess.Sprites.Pieces;
 using Chess.Types.Constants;
+using Chess.Types.Enumerations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Chess
 {
@@ -42,16 +45,29 @@ namespace Chess
 			var cellTexture = Content.Load<Texture2D>("Cell");
 			_chessBoard = new CellGrid(cellTexture).ChessBoard;
 
-			var pawnTexture = Content.Load<Texture2D>("Pawn");
+			var rookTexture = Content.Load<Texture2D>("Rook");
+			var bishopTexture = Content.Load<Texture2D>("Bishop");
 
 			foreach(var cell in _chessBoard)
 			{
-				if (cell.Location.Equals(new Point(0, 0)))
+				if (cell.Location.Equals(new Point(6, 3)))
 				{
-					var piece = new Rook(pawnTexture)
+					var piece = new Rook(rookTexture)
 					{
-						Position = cell.CellOrigin(pawnTexture),
-						Color = Color.Black,
+						Position = cell.CellOrigin(rookTexture),
+						PieceColor = PieceColor.Black,
+						Location = new Point(cell.Location.X, cell.Location.Y)
+					};
+
+					_pieces.Add(piece);
+				}
+
+				if (cell.Location.Equals(new Point(3, 5)))
+				{
+					var piece = new Rook(rookTexture)
+					{
+						Position = cell.CellOrigin(rookTexture),
+						PieceColor = PieceColor.Black,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
@@ -60,10 +76,10 @@ namespace Chess
 
 				if (cell.Location.Equals(new Point(5, 5)))
 				{
-					var piece = new Rook(pawnTexture)
+					var piece = new Bishop(bishopTexture)
 					{
-						Position = cell.CellOrigin(pawnTexture),
-						Color = Color.Black,
+						Position = cell.CellOrigin(bishopTexture),
+						PieceColor = PieceColor.White,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
@@ -81,45 +97,18 @@ namespace Chess
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
 
-			_pieces.ForEach(res => res.Update(gameTime, _pieces, _chessBoard));
+			var anyPiecesSelected = _pieces.FirstOrDefault(res => res.IsSelected);
+			
+			if(anyPiecesSelected != null)
+				anyPiecesSelected.Update(gameTime, _pieces, _chessBoard);
+			else
+				_pieces.ForEach(res => res.Update(gameTime, _pieces, _chessBoard));
 
-			//await Task.Run(() =>
-			//{
-			//	Parallel.ForEach(_sprites, (sprite) =>
-			//	{
-			//		sprite.Update(gameTime, _sprites);
-			//	});
-			//});
-
-			//PostProcess();
-
-			//_sprites.RemoveAll(res =>
-			//{
-			//	if (res is Piece)
-			//		if((res as Piece).IsRemoved)
-			//			return true;
-
-			//	return false;
-			//});
+			_pieces.RemoveAll(res => res.IsRemoved);
 
 			base.Update(gameTime);
 		}
 
-		private void PostProcess()
-		{
-			for (var i = 0; i < _pieces.Count; i++)
-			{
-				var sprite = _pieces[i];
-				if (sprite is Piece)
-				{
-					if ((sprite as Piece).IsRemoved)
-					{
-						_pieces.RemoveAt(i);
-						i--;
-					}
-				}
-			}
-		}
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);

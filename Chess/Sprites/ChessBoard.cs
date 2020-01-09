@@ -25,9 +25,9 @@ namespace Chess.Sprites
 
 		public void BuildCellGrid(Texture2D cellTexture)
 		{
-			for (var x = 0; x < _cellGrid.GetLength(0); x++)
+			for (var x = Global.MIN_CELL_BOUNDARY; x < _cellGrid.GetLength(0); x++)
 			{
-				for (var y = 0; y < _cellGrid.GetLength(1); y++)
+				for (var y = Global.MIN_CELL_BOUNDARY; y < _cellGrid.GetLength(1); y++)
 				{
 					Color cellColor;
 					var evenRow = (x % 2 == 0);

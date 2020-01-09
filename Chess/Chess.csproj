@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Chess.cs" />
     <Compile Include="Sprites\ChessBoard.cs" />
+    <Compile Include="Sprites\Pieces\Bishop.cs" />
     <Compile Include="Sprites\Pieces\Rook.cs" />
     <Compile Include="Types\Constants\Global.cs" />
     <Compile Include="Program.cs" />
@@ -52,7 +53,8 @@
     <Compile Include="Sprites\Pieces\Pawn.cs" />
     <Compile Include="Sprites\Piece.cs" />
     <Compile Include="Sprites\Sprite.cs" />
-    <Compile Include="Types\Enumerations\Pieces.cs" />
+    <Compile Include="Types\Enumerations\PieceColor.cs" />
+    <Compile Include="Types\Enumerations\PieceType.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

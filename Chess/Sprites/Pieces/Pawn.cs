@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Chess.Sprites
+namespace Chess.Sprites.Pieces
 {
 	public class Pawn : Piece
 	{
@@ -19,15 +19,10 @@ namespace Chess.Sprites
 				var movDirY = Color == Color.White ? -MovementRange.Y : MovementRange.Y;
 				var movementY = ((int)(Location.Y + movDirY)).Clamp();
 
-				var locations = new List<Point>
-				{
-					new Point(Location.X, movementY),
-					new Point(Location.X + MovementRange.X, movementY),
-					new Point(Location.X + -MovementRange.X, movementY)
-				};
-
-
+				AvailableLocations.Add(new Point(Location.X, movementY));
+			
 			}
+
 			base.Update(gameTime, pieces, chessBoard);
 		}
 
