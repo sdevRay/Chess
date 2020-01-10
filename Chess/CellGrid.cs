@@ -1,9 +1,10 @@
-﻿using Chess.Types.Constants;
+﻿using Chess.Sprites;
+using Chess.Types.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Chess.Sprites
+namespace Chess
 {
 	public class CellGrid
 	{

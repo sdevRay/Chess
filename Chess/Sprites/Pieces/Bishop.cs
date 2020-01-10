@@ -17,22 +17,20 @@ namespace Chess.Sprites.Pieces
 			{	
 				int y = Location.Y, x = Location.X;
 
-				var otherPieces = pieces.Where(res => res != this);
-
-				CheckUpLeft(y, x, otherPieces);
-				CheckUpRight(y, x, otherPieces);
-				CheckDownRight(y, x, otherPieces);
-				CheckDownLeft(y, x, otherPieces);
+				CheckUpLeft(y, x);
+				CheckUpRight(y, x);
+				CheckDownRight(y, x);
+				CheckDownLeft(y, x);
 			}
 
 			base.Update(gameTime, pieces, chessBoard);
 		}
 
-		private void CheckDownLeft(int y, int x, IEnumerable<Piece> otherPieces)
+		private void CheckDownLeft(int y, int x)
 		{
 			do
 			{
-				if (ProcessCells(y, x, otherPieces))
+				if (ProcessCells(y, x))
 					break;
 
 				x -= 1;
@@ -41,11 +39,11 @@ namespace Chess.Sprites.Pieces
 			} while (x >= Global.MIN_CELL_BOUNDARY);
 		}
 
-		private void CheckDownRight(int y, int x, IEnumerable<Piece> otherPieces)
+		private void CheckDownRight(int y, int x)
 		{
 			do
 			{
-				if (ProcessCells(y, x, otherPieces))
+				if (ProcessCells(y, x))
 					break;
 
 				x += 1;
@@ -54,11 +52,11 @@ namespace Chess.Sprites.Pieces
 			} while (x <= Global.MAX_CELL_BOUNDARY);
 		}
 
-		private void CheckUpRight(int y, int x, IEnumerable<Piece> otherPieces)
+		private void CheckUpRight(int y, int x)
 		{
 			do
 			{
-				if (ProcessCells(y, x, otherPieces))
+				if (ProcessCells(y, x))
 					break;
 
 				x += 1;
@@ -67,11 +65,11 @@ namespace Chess.Sprites.Pieces
 			} while (y >= Global.MIN_CELL_BOUNDARY);
 		}
 
-		private void CheckUpLeft(int y, int x, IEnumerable<Piece> otherPieces)
+		private void CheckUpLeft(int y, int x)
 		{
 			do
 			{
-				if (ProcessCells(y, x, otherPieces))
+				if (ProcessCells(y, x))
 					break;
 
 				x -= 1;
@@ -80,12 +78,12 @@ namespace Chess.Sprites.Pieces
 			} while (y >= Global.MIN_CELL_BOUNDARY);
 		}
 
-		private bool ProcessCells(int y, int x, IEnumerable<Piece> otherPieces)
+		private bool ProcessCells(int y, int x)
 		{
 			var skip = false;
 			var add = false;
 
-			var otherPiece = otherPieces.FirstOrDefault(res => res.Location.X == x && res.Location.Y == y);
+			var otherPiece = OtherPieces.FirstOrDefault(res => res.Location.X == x && res.Location.Y == y);
 			if (otherPiece != null)
 			{
 				add = true;

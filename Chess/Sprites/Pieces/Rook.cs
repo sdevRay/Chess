@@ -14,62 +14,59 @@ namespace Chess.Sprites.Pieces
 
 		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
-
 			if (IsSelected)
 			{
-				var otherPieces = pieces.Where(res => res != this);
-
-				CheckLeft(otherPieces);
-				CheckRight(otherPieces);
-				CheckUp(otherPieces);
-				CheckDown(otherPieces);
+				CheckLeft();
+				CheckRight();
+				CheckUp();
+				CheckDown();
 			}
 
 			base.Update(gameTime, pieces, chessBoard);
 		}
 
-		private void CheckDown(IEnumerable<Piece> otherPieces)
+		private void CheckDown()
 		{
 			for (var y = Location.Y; y <= Global.MAX_CELL_BOUNDARY; y++)
 			{
-				if (ProcessVerticalCells(otherPieces, y))
+				if (ProcessVerticalCells(y))
 					break;
 			}
 		}
 
-		private void CheckUp(IEnumerable<Piece> otherPieces)
+		private void CheckUp()
 		{
 			for (var y = Location.Y; y >= Global.MIN_CELL_BOUNDARY; y--)
 			{
-				if (ProcessVerticalCells(otherPieces, y))
+				if (ProcessVerticalCells(y))
 					break;
 			}
 		}
 
-		private void CheckRight(IEnumerable<Piece> otherPieces)
+		private void CheckRight()
 		{
 			for (var x = Location.X; x <= Global.MAX_CELL_BOUNDARY; x++)
 			{
-				if (ProcessHorizontalCells(otherPieces, x))
+				if (ProcessHorizontalCells(x))
 					break;
 			}
 		}
 
-		private void CheckLeft(IEnumerable<Piece> otherPieces)
+		private void CheckLeft()
 		{
 			for (var x = Location.X; x >= Global.MIN_CELL_BOUNDARY; x--)
 			{
-				if (ProcessHorizontalCells(otherPieces, x))
+				if (ProcessHorizontalCells(x))
 					break;
 			}
 		}
 
-		private bool ProcessVerticalCells(IEnumerable<Piece> otherPieces, int y)
+		private bool ProcessVerticalCells(int y)
 		{
 			var add = false;
 			var skip = false;
 
-			var otherPiece = otherPieces.FirstOrDefault(res => res.Location.X == Location.X && res.Location.Y == y);
+			var otherPiece = OtherPieces.FirstOrDefault(res => res.Location.X == Location.X && res.Location.Y == y);
 			if (otherPiece != null)
 			{
 				add = true;
@@ -82,12 +79,12 @@ namespace Chess.Sprites.Pieces
 			return add;
 		}
 
-		private bool ProcessHorizontalCells(IEnumerable<Piece> otherPieces, int x)
+		private bool ProcessHorizontalCells(int x)
 		{
 			var add = false;
 			var skip = false;
 
-			var otherPiece = otherPieces.FirstOrDefault(res => res.Location.X == x && res.Location.Y == Location.Y);
+			var otherPiece = OtherPieces.FirstOrDefault(res => res.Location.X == x && res.Location.Y == Location.Y);
 			if (otherPiece != null)
 			{
 				add = true;

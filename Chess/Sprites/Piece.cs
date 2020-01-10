@@ -19,6 +19,8 @@ namespace Chess.Sprites
 		public PieceColor PieceColor;
 		public PieceType PieceType; // NOT USED YET
 
+		public List<Piece> OtherPieces;
+
 		public bool IsSelected;
 		public bool IsRemoved;
 		public Piece(Texture2D texture) : base(texture)
@@ -30,6 +32,7 @@ namespace Chess.Sprites
 			//var allOtherPieces = pieces.Where(res => res != this);
 			//if (allOtherPieces.Any(res => res.IsSelected))
 			//	return; // ONLY EVALUATE THE SELECTED ONE
+			OtherPieces = pieces.Where(res => res != this).ToList();
 
 			var newState = Mouse.GetState();
 
@@ -47,7 +50,7 @@ namespace Chess.Sprites
 
 						if (AvailableLocations.Contains(cell.Location))
 						{
-							var occupyingPiece = pieces.Where(res => res != this).FirstOrDefault(res => res.Location == cell.Location);
+							var occupyingPiece = OtherPieces.FirstOrDefault(res => res.Location == cell.Location);
 							if (occupyingPiece != null)
 								if (!occupyingPiece.PieceColor.Equals(PieceColor))
 									occupyingPiece.IsRemoved = true;

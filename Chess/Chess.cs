@@ -47,9 +47,22 @@ namespace Chess
 
 			var rookTexture = Content.Load<Texture2D>("Rook");
 			var bishopTexture = Content.Load<Texture2D>("Bishop");
+			var pawnTexture = Content.Load<Texture2D>("Pawn");
 
 			foreach(var cell in _chessBoard)
 			{
+				if (cell.Location.Equals(new Point(0, 0)))
+				{
+					var piece = new Pawn(pawnTexture)
+					{
+						Position = cell.CellOrigin(pawnTexture),
+						PieceColor = PieceColor.White,
+						Location = new Point(cell.Location.X, cell.Location.Y)
+					};
+
+					_pieces.Add(piece);
+				}
+
 				if (cell.Location.Equals(new Point(6, 3)))
 				{
 					var piece = new Rook(rookTexture)
