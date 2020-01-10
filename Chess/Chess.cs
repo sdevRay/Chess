@@ -55,7 +55,7 @@ namespace Chess
 					var piece = new Rook(rookTexture)
 					{
 						Position = cell.CellOrigin(rookTexture),
-						PieceColor = PieceColor.Black,
+						PieceColor = PieceColor.White,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
@@ -67,6 +67,7 @@ namespace Chess
 					var piece = new Rook(rookTexture)
 					{
 						Position = cell.CellOrigin(rookTexture),
+						Color = Color.Black,
 						PieceColor = PieceColor.Black,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};

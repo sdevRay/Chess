@@ -48,12 +48,9 @@ namespace Chess.Sprites
 							cellColor = Color.LightBlue;
 					}
 
-					var cellPositionX = _cellWidth * x;
-					var cellPositionY = _cellHeight * y;
-
 					ChessBoard.Add(new Cell(cellTexture)
 					{
-						Position = new Vector2(cellPositionX, cellPositionY),
+						Position = new Vector2(_cellWidth * x, _cellHeight * y),
 						DefaultColor = cellColor,
 						Location = new Point(x, y)
 					});

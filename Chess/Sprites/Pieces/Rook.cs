@@ -17,49 +17,63 @@ namespace Chess.Sprites.Pieces
 
 			if (IsSelected)
 			{
-				var horPieces = pieces.Where(res => res != this).Where(res => res.Location.Y == Location.Y);
-				var verPieces = pieces.Where(res => res != this).Where(res => res.Location.X == Location.X);
+				var otherPieces = pieces.Where(res => res != this);
 
-				for (var x = Location.X; x >= Global.MIN_CELL_BOUNDARY; x--)
-				{
-					if (ProcessHorizontalCells(horPieces, x))
-						break;
-				}
-
-				for (var x = Location.X; x <= Global.MAX_CELL_BOUNDARY; x++)
-				{
-					if (ProcessHorizontalCells(horPieces, x))
-						break;
-				}
-
-				for (var y = Location.Y; y >= Global.MIN_CELL_BOUNDARY; y--)
-				{
-					if (ProcessVerticalCells(verPieces, y))
-						break;
-				}
-
-				for (var y = Location.Y; y <= Global.MAX_CELL_BOUNDARY; y++)
-				{
-					if (ProcessVerticalCells(verPieces, y))
-						break;
-				}
+				CheckLeft(otherPieces);
+				CheckRight(otherPieces);
+				CheckUp(otherPieces);
+				CheckDown(otherPieces);
 			}
 
 			base.Update(gameTime, pieces, chessBoard);
 		}
 
-		private bool ProcessVerticalCells(IEnumerable<Piece> verPieces, int y)
+		private void CheckDown(IEnumerable<Piece> otherPieces)
+		{
+			for (var y = Location.Y; y <= Global.MAX_CELL_BOUNDARY; y++)
+			{
+				if (ProcessVerticalCells(otherPieces, y))
+					break;
+			}
+		}
+
+		private void CheckUp(IEnumerable<Piece> otherPieces)
+		{
+			for (var y = Location.Y; y >= Global.MIN_CELL_BOUNDARY; y--)
+			{
+				if (ProcessVerticalCells(otherPieces, y))
+					break;
+			}
+		}
+
+		private void CheckRight(IEnumerable<Piece> otherPieces)
+		{
+			for (var x = Location.X; x <= Global.MAX_CELL_BOUNDARY; x++)
+			{
+				if (ProcessHorizontalCells(otherPieces, x))
+					break;
+			}
+		}
+
+		private void CheckLeft(IEnumerable<Piece> otherPieces)
+		{
+			for (var x = Location.X; x >= Global.MIN_CELL_BOUNDARY; x--)
+			{
+				if (ProcessHorizontalCells(otherPieces, x))
+					break;
+			}
+		}
+
+		private bool ProcessVerticalCells(IEnumerable<Piece> otherPieces, int y)
 		{
 			var add = false;
 			var skip = false;
 
-			foreach (var verPiece in verPieces)
+			var otherPiece = otherPieces.FirstOrDefault(res => res.Location.X == Location.X && res.Location.Y == y);
+			if (otherPiece != null)
 			{
-				if (verPiece.Location.Y == y)
-				{
-					add = true;
-					skip = verPiece.PieceColor.Equals(PieceColor);
-				}
+				add = true;
+				skip = otherPiece.PieceColor.Equals(PieceColor);
 			}
 
 			if (!skip)
@@ -68,18 +82,16 @@ namespace Chess.Sprites.Pieces
 			return add;
 		}
 
-		private bool ProcessHorizontalCells(IEnumerable<Piece> horPieces, int x)
+		private bool ProcessHorizontalCells(IEnumerable<Piece> otherPieces, int x)
 		{
 			var add = false;
 			var skip = false;
 
-			foreach (var horPiece in horPieces)
+			var otherPiece = otherPieces.FirstOrDefault(res => res.Location.X == x && res.Location.Y == Location.Y);
+			if (otherPiece != null)
 			{
-				if (horPiece.Location.X == x)
-				{
-					add = true;
-					skip = horPiece.PieceColor.Equals(PieceColor);
-				}
+				add = true;
+				skip = otherPiece.PieceColor.Equals(PieceColor);
 			}
 
 			if (!skip)
