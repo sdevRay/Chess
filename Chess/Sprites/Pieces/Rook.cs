@@ -1,4 +1,5 @@
-﻿using Chess.Types.Constants;
+﻿using Chess.Sprites.Cells;
+using Chess.Types.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -64,17 +65,12 @@ namespace Chess.Sprites.Pieces
 		private bool ProcessVerticalCells(int y)
 		{
 			var add = false;
-			var skip = false;
 
 			var otherPiece = OtherPieces.FirstOrDefault(res => res.Location.X == Location.X && res.Location.Y == y);
 			if (otherPiece != null)
-			{
 				add = true;
-				skip = otherPiece.PieceColor.Equals(PieceColor);
-			}
-
-			if (!skip)
-				AvailableLocations.Add(new Point(Location.X, y));
+			
+			AvailableLocations.Add(new Point(Location.X, y));
 
 			return add;
 		}
@@ -82,17 +78,12 @@ namespace Chess.Sprites.Pieces
 		private bool ProcessHorizontalCells(int x)
 		{
 			var add = false;
-			var skip = false;
 
 			var otherPiece = OtherPieces.FirstOrDefault(res => res.Location.X == x && res.Location.Y == Location.Y);
 			if (otherPiece != null)
-			{
 				add = true;
-				skip = otherPiece.PieceColor.Equals(PieceColor);
-			}
-
-			if (!skip)
-				AvailableLocations.Add(new Point(x, Location.Y));
+			
+			AvailableLocations.Add(new Point(x, Location.Y));
 
 			return add;
 		}

@@ -1,4 +1,5 @@
-﻿using Chess.Types;
+﻿using Chess.Sprites.Cells;
+using Chess.Types;
 using Chess.Types.Constants;
 using Chess.Types.Enumerations;
 using Microsoft.Xna.Framework;
@@ -29,11 +30,6 @@ namespace Chess.Sprites
 
 		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
-			//var allOtherPieces = pieces.Where(res => res != this);
-			//if (allOtherPieces.Any(res => res.IsSelected))
-			//	return; // ONLY EVALUATE THE SELECTED ONE
-			OtherPieces = pieces.Where(res => res != this).ToList();
-
 			var newState = Mouse.GetState();
 
 			if (Rectangle.Contains(newState.Position))
@@ -52,15 +48,25 @@ namespace Chess.Sprites
 						{
 							var occupyingPiece = OtherPieces.FirstOrDefault(res => res.Location == cell.Location);
 							if (occupyingPiece != null)
+							{
 								if (!occupyingPiece.PieceColor.Equals(PieceColor))
+								{
 									occupyingPiece.IsRemoved = true;
-
-							Position = cell.CellOrigin(Texture);
-							Location = cell.Location;
+									NewLocation(cell);
+								}
+								else
+								{
+									PreviousLocation(chessBoard);
+								}
+							}
+							else
+							{
+								NewLocation(cell);
+							}
 						}
 						else
 						{
-							Position = chessBoard.FirstOrDefault(res => res.Location.Equals(Location)).CellOrigin(Texture);
+							PreviousLocation(chessBoard);
 						}
 
 						AvailableLocations.Clear();
@@ -83,6 +89,17 @@ namespace Chess.Sprites
 			_previousState = newState;
 
 			base.Update(gameTime, pieces, chessBoard);
+		}
+
+		private void PreviousLocation(List<Cell> chessBoard)
+		{
+			Position = chessBoard.FirstOrDefault(res => res.Location.Equals(Location)).CellOrigin(Texture);
+		}
+
+		private void NewLocation(Cell cell)
+		{
+			Position = cell.CellOrigin(Texture);
+			Location = cell.Location;
 		}
 	}
 }

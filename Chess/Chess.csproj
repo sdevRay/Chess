@@ -43,13 +43,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Chess.cs" />
-    <Compile Include="CellGrid.cs" />
+    <Compile Include="Sprites\Cells\CellGrid.cs" />
     <Compile Include="Sprites\Pieces\Bishop.cs" />
+    <Compile Include="Sprites\Cells\CellCheckerService.cs" />
+    <Compile Include="Sprites\Pieces\Knight.cs" />
+    <Compile Include="Sprites\Pieces\Queen.cs" />
     <Compile Include="Sprites\Pieces\Rook.cs" />
     <Compile Include="Types\Constants\Global.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sprites\Cell.cs" />
+    <Compile Include="Sprites\Cells\Cell.cs" />
     <Compile Include="Sprites\Pieces\Pawn.cs" />
     <Compile Include="Sprites\Piece.cs" />
     <Compile Include="Sprites\Sprite.cs" />

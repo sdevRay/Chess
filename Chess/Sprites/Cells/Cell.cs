@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Chess.Sprites
+namespace Chess.Sprites.Cells
 {
 	public class Cell : Sprite
 	{

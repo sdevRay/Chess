@@ -1,4 +1,5 @@
-﻿using Chess.Types.Constants;
+﻿using Chess.Sprites.Cells;
+using Chess.Types.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -8,14 +9,17 @@ namespace Chess.Sprites.Pieces
 {
 	public class Bishop : Piece
 	{
+		private CellCheckerService _cellCheckerService;
 		public Bishop(Texture2D texture) : base(texture)
 		{
+			_cellCheckerService = new CellCheckerService(this);
 		}
 		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
 			if (IsSelected)
 			{	
 				int y = Location.Y, x = Location.X;
+				AvailableLocations = _cellCheckerService.CheckDownLeft(x, y);
 
 				CheckUpLeft(y, x);
 				CheckUpRight(y, x);
@@ -80,18 +84,14 @@ namespace Chess.Sprites.Pieces
 
 		private bool ProcessCells(int y, int x)
 		{
-			var skip = false;
 			var add = false;
 
 			var otherPiece = OtherPieces.FirstOrDefault(res => res.Location.X == x && res.Location.Y == y);
 			if (otherPiece != null)
-			{
 				add = true;
-				skip = otherPiece.PieceColor.Equals(PieceColor);
-			}
+			
 
-			if (!skip)
-				AvailableLocations.Add(new Point(x, y));
+			AvailableLocations.Add(new Point(x, y));
 
 			return add;
 		}

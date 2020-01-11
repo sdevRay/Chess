@@ -1,34 +1,27 @@
-﻿using Chess.Sprites;
-using Chess.Types.Constants;
+﻿using Chess.Types.Constants;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Chess
+namespace Chess.Sprites.Cells
 {
 	public class CellGrid
 	{
-		private Cell[,] _cellGrid;
-		private readonly int _cellCount = 8;
-		private int _cellWidth;
-		private int _cellHeight;
-
-		public List<Cell> ChessBoard = new List<Cell>();
-
+		private Texture2D _cellTexture;
 		public CellGrid(Texture2D cellTexture)
 		{
-			_cellWidth = Global.SCREEN_WIDTH / _cellCount;
-			_cellHeight = Global.SCREEN_HEIGHT / _cellCount;
-			_cellGrid = new Cell[_cellCount, _cellCount];
-
-			BuildCellGrid(cellTexture);
+			_cellTexture = cellTexture;
 		}
-
-		public void BuildCellGrid(Texture2D cellTexture)
+		public List<Cell> GetChessBoard()
 		{
-			for (var x = Global.MIN_CELL_BOUNDARY; x < _cellGrid.GetLength(0); x++)
+			var chessBoard = new List<Cell>();
+			var _cellCount = 8;
+			var _cellWidth = Global.SCREEN_WIDTH / _cellCount;
+			var _cellHeight = Global.SCREEN_HEIGHT / _cellCount;
+
+			for (var x = Global.MIN_CELL_BOUNDARY; x < _cellCount; x++)
 			{
-				for (var y = Global.MIN_CELL_BOUNDARY; y < _cellGrid.GetLength(1); y++)
+				for (var y = Global.MIN_CELL_BOUNDARY; y < _cellCount; y++)
 				{
 					Color cellColor;
 					var evenRow = (x % 2 == 0);
@@ -49,7 +42,7 @@ namespace Chess
 							cellColor = Color.LightBlue;
 					}
 
-					ChessBoard.Add(new Cell(cellTexture)
+					chessBoard.Add(new Cell(_cellTexture)
 					{
 						Position = new Vector2(_cellWidth * x, _cellHeight * y),
 						DefaultColor = cellColor,
@@ -57,6 +50,8 @@ namespace Chess
 					});
 				}
 			}
+
+			return chessBoard;
 		}
 	}
 }

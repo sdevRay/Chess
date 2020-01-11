@@ -1,4 +1,5 @@
 ﻿using Chess.Sprites;
+using Chess.Sprites.Cells;
 using Chess.Sprites.Pieces;
 using Chess.Types.Constants;
 using Chess.Types.Enumerations;
@@ -43,19 +44,46 @@ namespace Chess
 		{
 
 			var cellTexture = Content.Load<Texture2D>("Cell");
-			_chessBoard = new CellGrid(cellTexture).ChessBoard;
+			_chessBoard = new CellGrid(cellTexture).GetChessBoard();
 
+			var knightTexture = Content.Load<Texture2D>("Knight");
 			var rookTexture = Content.Load<Texture2D>("Rook");
-			var bishopTexture = Content.Load<Texture2D>("Bishop");
+			var bishopWhiteTexture = Content.Load<Texture2D>("Bishop_White");
+			var bishopBlackTexture = Content.Load<Texture2D>("Bishop_Black");
 			var pawnTexture = Content.Load<Texture2D>("Pawn");
+			var queenTexture = Content.Load<Texture2D>("Queen");
 
-			foreach(var cell in _chessBoard)
+			foreach (var cell in _chessBoard)
 			{
-				if (cell.Location.Equals(new Point(0, 0)))
+				if (cell.Location.Equals(new Point(2, 6)))
+				{
+					var piece = new Queen(queenTexture)
+					{
+						Position = cell.CellOrigin(queenTexture),
+						PieceColor = PieceColor.White,
+						Location = new Point(cell.Location.X, cell.Location.Y)
+					};
+
+					_pieces.Add(piece);
+				}
+
+				if (cell.Location.Equals(new Point(2, 1)))
 				{
 					var piece = new Pawn(pawnTexture)
 					{
 						Position = cell.CellOrigin(pawnTexture),
+						PieceColor = PieceColor.White,
+						Location = new Point(cell.Location.X, cell.Location.Y)
+					};
+
+					_pieces.Add(piece);
+				}
+
+				if (cell.Location.Equals(new Point(4, 4)))
+				{
+					var piece = new Knight(knightTexture)
+					{
+						Position = cell.CellOrigin(knightTexture),
 						PieceColor = PieceColor.White,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
@@ -77,10 +105,9 @@ namespace Chess
 
 				if (cell.Location.Equals(new Point(3, 5)))
 				{
-					var piece = new Rook(rookTexture)
+					var piece = new Bishop(bishopBlackTexture)
 					{
-						Position = cell.CellOrigin(rookTexture),
-						Color = Color.Black,
+						Position = cell.CellOrigin(bishopBlackTexture),
 						PieceColor = PieceColor.Black,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
@@ -90,9 +117,9 @@ namespace Chess
 
 				if (cell.Location.Equals(new Point(5, 5)))
 				{
-					var piece = new Bishop(bishopTexture)
+					var piece = new Bishop(bishopWhiteTexture)
 					{
-						Position = cell.CellOrigin(bishopTexture),
+						Position = cell.CellOrigin(bishopWhiteTexture),
 						PieceColor = PieceColor.White,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
@@ -114,7 +141,10 @@ namespace Chess
 			var anyPiecesSelected = _pieces.FirstOrDefault(res => res.IsSelected);
 			
 			if(anyPiecesSelected != null)
+			{
+				anyPiecesSelected.OtherPieces = _pieces.Where(res => !res.IsSelected).ToList();
 				anyPiecesSelected.Update(gameTime, _pieces, _chessBoard);
+			}
 			else
 				_pieces.ForEach(res => res.Update(gameTime, _pieces, _chessBoard));
 
