@@ -1,6 +1,7 @@
 ﻿using Chess.Sprites;
 using Chess.Sprites.Cells;
 using Chess.Sprites.Pieces;
+using Chess.Types;
 using Chess.Types.Constants;
 using Chess.Types.Enumerations;
 using Microsoft.Xna.Framework;
@@ -61,6 +62,7 @@ namespace Chess
 					{
 						Position = cell.CellOrigin(queenTexture),
 						PieceColor = PieceColor.White,
+						PieceType = PieceType.Queen,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
@@ -73,6 +75,7 @@ namespace Chess
 					{
 						Position = cell.CellOrigin(pawnTexture),
 						PieceColor = PieceColor.White,
+						PieceType = PieceType.Pawn,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
@@ -85,6 +88,7 @@ namespace Chess
 					{
 						Position = cell.CellOrigin(knightTexture),
 						PieceColor = PieceColor.White,
+						PieceType = PieceType.Knight,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
@@ -93,34 +97,37 @@ namespace Chess
 
 				if (cell.Location.Equals(new Point(6, 3)))
 				{
-					var piece = new Rook(rookTexture)
+					var piece = new Rook(rookTexture, new CellCheckerService())
 					{
 						Position = cell.CellOrigin(rookTexture),
 						PieceColor = PieceColor.White,
+						PieceType = PieceType.Rook,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
 					_pieces.Add(piece);
 				}
 
-				if (cell.Location.Equals(new Point(3, 5)))
+				if (cell.Location.Equals(new Point(0, 0)))
 				{
 					var piece = new Bishop(bishopBlackTexture)
 					{
 						Position = cell.CellOrigin(bishopBlackTexture),
 						PieceColor = PieceColor.Black,
+						PieceType = PieceType.Bishop,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
 					_pieces.Add(piece);
 				}
 
-				if (cell.Location.Equals(new Point(5, 5)))
+				if (cell.Location.Equals(new Point(1, 1)))
 				{
 					var piece = new Bishop(bishopWhiteTexture)
 					{
 						Position = cell.CellOrigin(bishopWhiteTexture),
 						PieceColor = PieceColor.White,
+						PieceType = PieceType.Bishop,
 						Location = new Point(cell.Location.X, cell.Location.Y)
 					};
 
@@ -141,10 +148,7 @@ namespace Chess
 			var anyPiecesSelected = _pieces.FirstOrDefault(res => res.IsSelected);
 			
 			if(anyPiecesSelected != null)
-			{
-				anyPiecesSelected.OtherPieces = _pieces.Where(res => !res.IsSelected).ToList();
 				anyPiecesSelected.Update(gameTime, _pieces, _chessBoard);
-			}
 			else
 				_pieces.ForEach(res => res.Update(gameTime, _pieces, _chessBoard));
 

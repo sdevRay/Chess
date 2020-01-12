@@ -20,7 +20,7 @@ namespace Chess.Sprites
 		public PieceColor PieceColor;
 		public PieceType PieceType; // NOT USED YET
 
-		public List<Piece> OtherPieces;
+		//public List<Piece> OtherPieces;
 
 		public bool IsSelected;
 		public bool IsRemoved;
@@ -46,7 +46,7 @@ namespace Chess.Sprites
 
 						if (AvailableLocations.Contains(cell.Location))
 						{
-							var occupyingPiece = OtherPieces.FirstOrDefault(res => res.Location == cell.Location);
+							var occupyingPiece = pieces.Where(res => !res.IsSelected).FirstOrDefault(res => res.Location == cell.Location);
 							if (occupyingPiece != null)
 							{
 								if (!occupyingPiece.PieceColor.Equals(PieceColor))

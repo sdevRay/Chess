@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Chess.cs" />
     <Compile Include="Sprites\Cells\CellGrid.cs" />
+    <Compile Include="Sprites\Cells\ICellCheckerService.cs" />
     <Compile Include="Sprites\Pieces\Bishop.cs" />
     <Compile Include="Sprites\Cells\CellCheckerService.cs" />
     <Compile Include="Sprites\Pieces\Knight.cs" />
