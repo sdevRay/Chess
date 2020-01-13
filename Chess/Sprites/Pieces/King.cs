@@ -5,21 +5,22 @@ using System.Collections.Generic;
 
 namespace Chess.Sprites.Pieces
 {
-	public class Knight : Piece
+	public class King : Piece
 	{
 		private readonly ILocationCheckerService _locationCheckerService;
-		private readonly int _movementRange = 2;
+		private readonly int _movementRange = 1;
 
-		public Knight(Texture2D texture, ILocationCheckerService locationCheckerService) : base(texture)
+		public King(Texture2D texture, ILocationCheckerService locationCheckerService) : base(texture)
 		{
 			_locationCheckerService = locationCheckerService;
 		}
+
 		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
 			if (IsSelected)
 			{
 				{
-					AvailableLocations.AddRange(_locationCheckerService.CheckKnightRange(Location, _movementRange));
+					AvailableLocations.AddRange(_locationCheckerService.CheckKingRange(Location, _movementRange));
 				}
 			}
 

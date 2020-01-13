@@ -7,6 +7,7 @@ namespace Chess.Sprites.Cells
 {
 	public class CellGrid
 	{
+		private readonly int _cellCount = 8;
 		private Texture2D _cellTexture;
 		public CellGrid(Texture2D cellTexture)
 		{
@@ -15,7 +16,6 @@ namespace Chess.Sprites.Cells
 		public List<Cell> GetChessBoard()
 		{
 			var chessBoard = new List<Cell>();
-			var _cellCount = 8;
 			var _cellWidth = Global.SCREEN_WIDTH / _cellCount;
 			var _cellHeight = Global.SCREEN_HEIGHT / _cellCount;
 
