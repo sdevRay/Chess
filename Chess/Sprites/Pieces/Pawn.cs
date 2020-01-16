@@ -14,22 +14,20 @@ namespace Chess.Sprites.Pieces
 		public Pawn(Texture2D texture, ILocationCheckerService locationCheckerService, Point location) : base(texture)
 		{
 			_locationCheckerService = locationCheckerService;
+
 			Location = location;
 
 			if (Location.Y < Global.MAX_CELL_BOUNDARY * 0.5)
 				_movementRange = 1;
 			else
 				_movementRange = -1;
-			
 		}
 
 		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard)
 		{
 			if (IsSelected)
 			{
-				var otherPieces = pieces.Where(res => !res.IsSelected).ToList();
-
-				AvailableLocations.AddRange(_locationCheckerService.CheckPawnRange(Location, _movementRange, otherPieces));
+				AvailableLocations.AddRange(_locationCheckerService.CheckPawnRange(Location, _movementRange, pieces, PieceColor));
 			}
 
 			base.Update(gameTime, pieces, chessBoard);

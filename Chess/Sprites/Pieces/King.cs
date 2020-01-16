@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Chess.Sprites.Pieces
 {
@@ -20,7 +21,7 @@ namespace Chess.Sprites.Pieces
 			if (IsSelected)
 			{
 				{
-					AvailableLocations.AddRange(_locationCheckerService.CheckKingRange(Location, _movementRange));
+					AvailableLocations.AddRange(_locationCheckerService.CheckKingRange(Location, _movementRange, pieces, PieceColor));
 				}
 			}
 

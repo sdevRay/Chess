@@ -17,13 +17,11 @@ namespace Chess.Sprites.Pieces
 		{
 			if (IsSelected)
 			{
-				var otherPieces = pieces.Where(res => !res.IsSelected).ToList();
-
 				AvailableLocations = AvailableLocations
-					.Concat(_locationCheckerService.CheckUp(Location, otherPieces))
-					.Concat(_locationCheckerService.CheckRight(Location, otherPieces))
-					.Concat(_locationCheckerService.CheckDown(Location, otherPieces))
-					.Concat(_locationCheckerService.CheckLeft(Location, otherPieces))
+					.Concat(_locationCheckerService.CheckUp(Location, pieces, PieceColor))
+					.Concat(_locationCheckerService.CheckRight(Location, pieces, PieceColor))
+					.Concat(_locationCheckerService.CheckDown(Location, pieces, PieceColor))
+					.Concat(_locationCheckerService.CheckLeft(Location, pieces, PieceColor))
 					.ToList();
 			}
 

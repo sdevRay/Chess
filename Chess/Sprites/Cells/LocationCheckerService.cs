@@ -1,4 +1,5 @@
 ﻿using Chess.Types.Constants;
+using Chess.Types.Enumerations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,55 +11,30 @@ namespace Chess.Sprites.Cells
 		public LocationCheckerService()
 		{
 		}
-		public List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> otherPieces)
+		public List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>() { loc };
+			var otherPieces = GetOtherPieces(pieces);
 
-			var verMov = new Point(loc.X, (loc.Y += movementRange));
-			var horMovLeft = new Point(loc.X - 1, (loc.Y));
-			var horMovRight = new Point(loc.X + 1, (loc.Y));
+			var forward = new Point(loc.X, loc.Y += movementRange);
+			var forLeft = new Point(loc.X + 1, loc.Y);
+			var forRight = new Point(loc.X - 1, loc.Y);
 
-			//aLoc.AddRange(new List<Point>
-			//
-			//	new Point(loc.X, (loc.Y += movementRange)),
-			//	new Point(loc.X - 1, (loc.Y)),
-			//	new Point(loc.X + 1, (loc.Y)),
-			//});
+			if(!otherPieces.Any(res => res.Location.Equals(forward)))
+				aLoc.Add(forward);
 
-			foreach(var otherPiece in otherPieces)
-			{
-				if (!otherPiece.Location.Equals(verMov))
-					aLoc.Add(verMov);
-
-				if (otherPiece.Location.Equals(horMovLeft))
+			otherPieces.ForEach(res => { 
+				if(res.Location.Equals(forLeft) || res.Location.Equals(forRight))
 				{
-					aLoc.Add(horMovLeft);
-
+					if (!res.PieceColor.Equals(pieceColor))
+						aLoc.Add(res.Location);
 				}
-				
-
-				if (otherPiece.Location.Equals(horMovRight))
-				{
-
-				}
-
-				aLoc.Add(horMovRight);
-
-
-
-			}
-
-			//var otherLocations = otherPieces
-			//	.Where(res => aLoc.Contains(res.Location))
-			//	.Select(res => res.Location)
-			//	.ToList();
-
-			//otherLocations.ForEach(res => aLoc.Remove(res));
+			});
 
 			return aLoc;
 		}
 
-		public List<Point> CheckKingRange(Point loc, int movementRange)
+		public List<Point> CheckKingRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>() { loc };
 
@@ -79,10 +55,10 @@ namespace Chess.Sprites.Cells
 				new Point(rangeNeg, rangeVerSub),
 			});
 
-			return aLoc;
+			return RemoveColorMatchingPieceLocations(pieces, pieceColor, aLoc);
 		}
 
-		public List<Point> CheckKnightRange(Point loc, int movementRange)
+		public List<Point> CheckKnightRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>() { loc };
 
@@ -114,68 +90,68 @@ namespace Chess.Sprites.Cells
 				new Point(locXsub, rangeNeg)
 			});
 
-			return aLoc;
+			return RemoveColorMatchingPieceLocations(pieces, pieceColor, aLoc);
 		}
 
-		public List<Point> CheckDown(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckDown(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			for (var y = loc.Y; y <= Global.MAX_CELL_BOUNDARY; y++)
 			{
-				if (ProcessLocation(loc.X, y, aLoc, otherPieces))
+				if (ProcessLocation(loc.X, y, aLoc, pieces, pieceColor))
 					break;
 			}
 
 			return aLoc;
 		}
 
-		public List<Point> CheckUp(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckUp(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			for (var y = loc.Y; y >= Global.MIN_CELL_BOUNDARY; y--)
 			{
-				if (ProcessLocation(loc.X, y, aLoc, otherPieces))
+				if (ProcessLocation(loc.X, y, aLoc, pieces, pieceColor))
 					break;
 			}
 
 			return aLoc;
 		}
 
-		public List<Point> CheckRight(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckRight(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			for (var x = loc.X; x <= Global.MAX_CELL_BOUNDARY; x++)
 			{
-				if (ProcessLocation(x, loc.Y, aLoc, otherPieces))
+				if (ProcessLocation(x, loc.Y, aLoc, pieces, pieceColor))
 					break;
 			}
 
 			return aLoc;
 		}
 
-		public List<Point> CheckLeft(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckLeft(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			for (var x = loc.X; x >= Global.MIN_CELL_BOUNDARY; x--)
 			{
-				if (ProcessLocation(x, loc.Y, aLoc, otherPieces))
+				if (ProcessLocation(x, loc.Y, aLoc, pieces, pieceColor))
 					break;
 			}
 
 			return aLoc;
 		}
 
-		public List<Point> CheckDownLeft(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckDownLeft(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			do
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, otherPieces))
+				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
 					break;
 
 				loc.X -= 1;
@@ -186,13 +162,13 @@ namespace Chess.Sprites.Cells
 			return aLoc;
 		}
 
-		public List<Point> CheckUpRight(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckUpRight(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			do
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, otherPieces))
+				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
 					break;
 
 				loc.X += 1;
@@ -203,13 +179,13 @@ namespace Chess.Sprites.Cells
 			return aLoc;
 		}
 
-		public List<Point> CheckUpLeft(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckUpLeft(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			do
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, otherPieces))
+				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
 					break;
 
 				loc.X -= 1;
@@ -220,13 +196,13 @@ namespace Chess.Sprites.Cells
 			return aLoc;
 		}
 
-		public List<Point> CheckDownRight(Point loc, List<Piece> otherPieces)
+		public List<Point> CheckDownRight(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>();
 
 			do
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, otherPieces))
+				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
 					break;
 
 				loc.X += 1;
@@ -237,16 +213,37 @@ namespace Chess.Sprites.Cells
 			return aLoc;
 		}
 
-		private bool ProcessLocation(int x, int y, List<Point> aLoc, List<Piece> otherPieces)
+		private static List<Piece> GetOtherPieces(List<Piece> pieces)
+		{
+			return pieces.Where(res => !res.IsSelected).ToList();
+		}
+
+		private static List<Point> RemoveColorMatchingPieceLocations(List<Piece> pieces, PieceColor pieceColor, List<Point> aLoc)
+		{
+			var colorMatchingPieceLocations = GetOtherPieces(pieces)
+				.Where(res => aLoc.Contains(res.Location))
+				.Where(res => res.PieceColor.Equals(pieceColor))
+				.Select(res => res.Location);
+
+			return aLoc.Where(res => !colorMatchingPieceLocations.Contains(res)).ToList();
+		}
+
+		private static bool ProcessLocation(int x, int y, List<Point> aLoc, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var add = false;
+			var skip = false;
 			var loc = new Point(x, y);
 
-			var otherPiece = otherPieces.FirstOrDefault(res => res.Location.Equals(loc));
+			var otherPiece = GetOtherPieces(pieces).FirstOrDefault(res => res.Location.Equals(loc));
 			if (otherPiece != null)
+			{
 				add = true;
+				if(otherPiece.PieceColor.Equals(pieceColor))
+					skip = true;
+			}
 
-			aLoc.Add(new Point(x, y));
+			if(!skip)
+				aLoc.Add(new Point(x, y));
 
 			return add;
 		}

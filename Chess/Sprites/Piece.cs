@@ -20,8 +20,6 @@ namespace Chess.Sprites
 		public PieceColor PieceColor;
 		public PieceType PieceType; // NOT USED YET
 
-		//public List<Piece> OtherPieces;
-
 		public bool IsSelected;
 		public bool IsRemoved;
 		public Piece(Texture2D texture) : base(texture)
