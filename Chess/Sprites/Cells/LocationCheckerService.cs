@@ -8,9 +8,6 @@ namespace Chess.Sprites.Cells
 {
 	public class LocationCheckerService : ILocationCheckerService
 	{
-		public LocationCheckerService()
-		{
-		}
 		public List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor)
 		{
 			var aLoc = new List<Point>() { loc };

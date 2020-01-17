@@ -240,7 +240,7 @@ namespace Chess
 				}
 
 				// BLACK BISHOPS
-				if (cell.Location.Equals(new Point(1, 0)))
+				if (cell.Location.Equals(new Point(2, 0)))
 				{
 					_pieces.Add(
 						new Bishop(bishopBlackTexture, locationCheckerService)
@@ -253,7 +253,7 @@ namespace Chess
 					);
 				}
 
-				if (cell.Location.Equals(new Point(6, 0)))
+				if (cell.Location.Equals(new Point(5, 0)))
 				{
 					_pieces.Add(
 						new Bishop(bishopBlackTexture, locationCheckerService)
@@ -267,7 +267,7 @@ namespace Chess
 				}
 
 				// WHITE BISHOPS
-				if (cell.Location.Equals(new Point(1, 7)))
+				if (cell.Location.Equals(new Point(2, 7)))
 				{
 					_pieces.Add(
 						new Bishop(bishopWhiteTexture, locationCheckerService)
@@ -280,7 +280,7 @@ namespace Chess
 					);
 				}
 
-				if (cell.Location.Equals(new Point(6, 7)))
+				if (cell.Location.Equals(new Point(5, 7)))
 				{
 					_pieces.Add(
 						new Bishop(bishopWhiteTexture, locationCheckerService)
@@ -294,7 +294,7 @@ namespace Chess
 				}
 
 				// BLACK KNIGHTS
-				if (cell.Location.Equals(new Point(2, 0)))
+				if (cell.Location.Equals(new Point(1, 0)))
 				{
 					_pieces.Add(
 						new Knight(knightBlackTexture, locationCheckerService)
@@ -307,7 +307,7 @@ namespace Chess
 					);
 				}
 
-				if (cell.Location.Equals(new Point(5, 0)))
+				if (cell.Location.Equals(new Point(6, 0)))
 				{
 					_pieces.Add(
 						new Knight(knightBlackTexture, locationCheckerService)
@@ -321,7 +321,7 @@ namespace Chess
 				}
 
 				// WHITE KNIGHTS
-				if (cell.Location.Equals(new Point(2, 7)))
+				if (cell.Location.Equals(new Point(1, 7)))
 				{
 					_pieces.Add(
 						new Knight(knightWhiteTexture, locationCheckerService)
@@ -334,7 +334,7 @@ namespace Chess
 					);
 				}
 
-				if (cell.Location.Equals(new Point(5, 7)))
+				if (cell.Location.Equals(new Point(6, 7)))
 				{
 					_pieces.Add(
 						new Knight(knightWhiteTexture, locationCheckerService)
