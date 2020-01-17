@@ -5,13 +5,29 @@ using System.Collections.Generic;
 
 namespace Chess.Sprites.Cells
 {
-	public class CellGrid
+	public class ChessBoard
 	{
 		private readonly int _cellCount = 8;
 		private Texture2D _cellTexture;
-		public CellGrid(Texture2D cellTexture)
+		public ChessBoard(Texture2D cellTexture)
 		{
 			_cellTexture = cellTexture;
+		}
+		public List<Point> GetPawnWhiteLocations()
+		{
+			var pawnWhiteLocations = new List<Point>();
+			for (var x = 0; x <= Global.MAX_CELL_BOUNDARY; x++)
+				pawnWhiteLocations.Add(new Point(x, 6));
+
+			return pawnWhiteLocations;
+		}
+		public List<Point> GetPawnBlackLocations()
+		{
+			var pawnBlackLocations = new List<Point>();
+			for (var x = 0; x <= Global.MAX_CELL_BOUNDARY; x++)
+				pawnBlackLocations.Add(new Point(x, 1));
+			
+			return pawnBlackLocations;
 		}
 		public List<Cell> GetChessBoard()
 		{

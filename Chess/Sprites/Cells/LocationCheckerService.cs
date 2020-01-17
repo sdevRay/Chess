@@ -54,7 +54,7 @@ namespace Chess.Sprites.Cells
 				new Point(rangeNeg, rangeVerAdd),
 				new Point(rangeNeg, rangeVerSub),
 			});
-
+			
 			return RemoveColorMatchingPieceLocations(pieces, pieceColor, aLoc);
 		}
 

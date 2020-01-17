@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Chess.cs" />
-    <Compile Include="Sprites\Cells\CellGrid.cs" />
+    <Compile Include="Sprites\Cells\ChessBoard.cs" />
     <Compile Include="Sprites\Cells\ILocationCheckerService.cs" />
     <Compile Include="Sprites\Pieces\Bishop.cs" />
     <Compile Include="Sprites\Cells\LocationCheckerService.cs" />

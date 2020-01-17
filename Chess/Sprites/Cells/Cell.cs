@@ -19,7 +19,7 @@ namespace Chess.Sprites.Cells
 				_defaultColor = value;
 			}
 		}
-		public Vector2 CellOrigin(Texture2D pieceTexture)
+		public Vector2 SetPieceOrigin(Texture2D pieceTexture)
 		{
 			return new Vector2(((Origin.X - (Rectangle.Width / 2)) + Rectangle.Width / 2) - pieceTexture.Width / 2, ((Origin.Y - (Rectangle.Height / 2)) + Rectangle.Height / 2) - pieceTexture.Height / 2);
 		}

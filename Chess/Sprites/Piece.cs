@@ -91,12 +91,12 @@ namespace Chess.Sprites
 
 		private void PreviousLocation(List<Cell> chessBoard)
 		{
-			Position = chessBoard.FirstOrDefault(res => res.Location.Equals(Location)).CellOrigin(Texture);
+			Position = chessBoard.FirstOrDefault(res => res.Location.Equals(Location)).SetPieceOrigin(Texture);
 		}
 
 		private void NewLocation(Cell cell)
 		{
-			Position = cell.CellOrigin(Texture);
+			Position = cell.SetPieceOrigin(Texture);
 			Location = cell.Location;
 		}
 	}
