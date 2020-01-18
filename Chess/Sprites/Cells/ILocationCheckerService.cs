@@ -6,7 +6,7 @@ namespace Chess.Sprites.Cells
 {
 	public interface ILocationCheckerService
 	{
-		List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor);
+		List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor, bool firstMove);
 		List<Point> CheckKingRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor);
 		List<Point> CheckKnightRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor);
 		List<Point> CheckDown(Point loc, List<Piece> pieces, PieceColor pieceColor);

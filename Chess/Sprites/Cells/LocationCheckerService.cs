@@ -8,7 +8,7 @@ namespace Chess.Sprites.Cells
 {
 	public class LocationCheckerService : ILocationCheckerService
 	{
-		public List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor)
+		public List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor, bool initialMove)
 		{
 			var aLoc = new List<Point>() { loc };
 			var otherPieces = GetOtherPieces(pieces);
@@ -17,7 +17,17 @@ namespace Chess.Sprites.Cells
 			var forLeft = new Point(loc.X + 1, loc.Y);
 			var forRight = new Point(loc.X - 1, loc.Y);
 
-			if(!otherPieces.Any(res => res.Location.Equals(forward)))
+			var locY = forward.Y;
+
+			if (initialMove)
+			{
+				var doubleForward = new Point(forward.X, locY += movementRange);
+
+				if (!otherPieces.Any(res => res.Location.Equals(doubleForward)) && !otherPieces.Any(res => res.Location.Equals(forward)))
+					aLoc.Add(doubleForward);
+			}
+
+			if (!otherPieces.Any(res => res.Location.Equals(forward)))
 				aLoc.Add(forward);
 
 			otherPieces.ForEach(res => { 

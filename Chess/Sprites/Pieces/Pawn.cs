@@ -8,6 +8,7 @@ namespace Chess.Sprites.Pieces
 {
 	public class Pawn : Piece
 	{
+		public bool InitialMove = true;
 		private readonly ILocationCheckerService _locationCheckerService;
 		private readonly int _movementRange;
 		public Pawn(Texture2D texture, ILocationCheckerService locationCheckerService, Point location) : base(texture)
@@ -26,7 +27,7 @@ namespace Chess.Sprites.Pieces
 		{
 			if (IsSelected)
 			{
-				AvailableLocations.AddRange(_locationCheckerService.CheckPawnRange(Location, _movementRange, pieces, PieceColor));
+				AvailableLocations.AddRange(_locationCheckerService.CheckPawnRange(Location, _movementRange, pieces, PieceColor, InitialMove));
 			}
 
 			base.Update(gameTime, pieces, chessBoard);

@@ -1,4 +1,5 @@
 ﻿using Chess.Sprites.Cells;
+using Chess.Sprites.Pieces;
 using Chess.Types;
 using Chess.Types.Constants;
 using Chess.Types.Enumerations;
@@ -66,7 +67,7 @@ namespace Chess.Sprites
 						{
 							PreviousLocation(chessBoard);
 						}
-
+			
 						AvailableLocations.Clear();
 
 						//System.Diagnostics.Debug.WriteLine(availableLocation.ToString());
@@ -96,6 +97,9 @@ namespace Chess.Sprites
 
 		private void NewLocation(Cell cell)
 		{
+			if (PieceType.Pawn.Equals(PieceType))
+				(this as Pawn).InitialMove = false;
+
 			Position = cell.SetPieceOrigin(Texture);
 			Location = cell.Location;
 		}
