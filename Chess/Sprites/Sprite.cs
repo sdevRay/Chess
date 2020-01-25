@@ -1,4 +1,5 @@
 ﻿using Chess.Sprites.Cells;
+using Chess.Types.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace Chess.Sprites
 			Texture = texture;
 		}
 
-		public virtual void Update(GameTime gameTime, List<Piece> sprites, List<Cell> chessBoard)
+		public virtual void Update(GameTime gameTime, List<Piece> sprites, List<Cell> chessBoard, Player player)
 		{
 		}
 
