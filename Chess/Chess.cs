@@ -1,4 +1,5 @@
-﻿using Chess.Sprites;
+﻿using Chess.LocationChecker;
+using Chess.Sprites;
 using Chess.Sprites.Cells;
 using Chess.Types.Constants;
 using Chess.Types.Enumerations;
@@ -19,6 +20,9 @@ namespace Chess
 		private Player _player;
 		private List<Piece> _pieces;
 		private List<Cell> _chessBoard;
+
+		private ChessBoard chessBoard;
+		private SpriteFont _font;
 
 		public Chess()
 		{
@@ -43,8 +47,10 @@ namespace Chess
 
 		protected override void LoadContent()
 		{
+			_font = Content.Load<SpriteFont>("Font");
+
 			var cellTexture = Content.Load<Texture2D>("Cell");
-			var chessBoard = new ChessBoard(cellTexture);
+			chessBoard = new ChessBoard(cellTexture);
 			
 			_chessBoard = chessBoard.GetChessBoard();
 			_pieces = chessBoard.GetPieces(_chessBoard, new LocationCheckerService(), new PieceTextures(Content));
@@ -60,9 +66,11 @@ namespace Chess
 				Exit();
 
 			var currentPieceSelected = _pieces.FirstOrDefault(res => res.IsSelected);
-
 			if (currentPieceSelected != null)
+			{
+				//currentPieceSelected.AvailableLocations.Clear();
 				currentPieceSelected.Update(gameTime, _pieces, _chessBoard, _player);
+			}
 			else
 				_pieces.ForEach(res => res.Update(gameTime, _pieces, _chessBoard, _player));
 
@@ -78,6 +86,7 @@ namespace Chess
 			spriteBatch.Begin();
 			_chessBoard.ForEach(res => res.Draw(spriteBatch));
 			_pieces.ForEach(res => res.Draw(spriteBatch));
+			chessBoard.debug.ForEach(res => spriteBatch.DrawString(_font, res.Label, res.Position, Color.Black));
 			spriteBatch.End();
 
 			base.Draw(gameTime);

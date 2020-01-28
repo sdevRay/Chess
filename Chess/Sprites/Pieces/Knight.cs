@@ -1,4 +1,5 @@
 ﻿using Chess.Sprites.Cells;
+using Chess.LocationChecker;
 using Chess.Types.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,16 +20,16 @@ namespace Chess.Sprites.Pieces
 		{
 			if (IsSelected)
 			{
-				SetAvailableLocations(pieces);
+				//SetAvailableLocations(pieces);
 			}
 
 			base.Update(gameTime, pieces, chessBoard, player);
 		}
 
-		public override void SetAvailableLocations(List<Piece> pieces)
-		{
-			AvailableLocations.Clear();
-			AvailableLocations.AddRange(_locationCheckerService.CheckKnightRange(Location, _movementRange, pieces, PieceColor));
-		}
+		//public override void SetAvailableLocations(List<Piece> pieces)
+		//{
+		//	AvailableLocations.Clear();
+		//	AvailableLocations.AddRange(_locationCheckerService.CheckKnightRange(Location, _movementRange, pieces, PieceColor));
+		//}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Chess.Sprites.Pieces;
+﻿using Chess.LocationChecker;
+using Chess.Sprites.Pieces;
 using Chess.Types;
 using Chess.Types.Constants;
 using Chess.Types.Enumerations;
@@ -11,8 +12,10 @@ namespace Chess.Sprites.Cells
 {
 	public class ChessBoard
 	{
+
 		private readonly int _cellCount = 8;
 		private Texture2D _cellTexture;
+		public List<Debug> debug;
 		public ChessBoard(Texture2D cellTexture)
 		{
 			_cellTexture = cellTexture;
@@ -35,6 +38,7 @@ namespace Chess.Sprites.Cells
 		}
 		public List<Cell> GetChessBoard()
 		{
+			debug = new List<Debug>();
 			var chessBoard = new List<Cell>();
 			var _cellWidth = Global.SCREEN_WIDTH / _cellCount;
 			var _cellHeight = Global.SCREEN_HEIGHT / _cellCount;
@@ -61,6 +65,12 @@ namespace Chess.Sprites.Cells
 						else
 							cellColor = Color.LightBlue;
 					}
+
+					debug.Add(new Debug
+					{
+						Position = new Vector2(_cellWidth * x, _cellHeight * y),
+						Label = $"X:{x} Y:{y}"
+					});
 
 					chessBoard.Add(new Cell(_cellTexture)
 					{
@@ -278,32 +288,32 @@ namespace Chess.Sprites.Cells
 				//}
 
 				//// BLACK KNIGHTS
-				var knightB = pieceTextures.knightBlackTexture;
-				if (cell.Location.Equals(new Point(1, 0)))
-				{
-					pieces.Add(
-						new Knight(knightB, locationCheckerService)
-						{
-							Position = cell.SetPieceOrigin(knightB),
-							PieceColor = PieceColor.Black,
-							PieceType = PieceType.Knight,
-							Location = new Point(cell.Location.X, cell.Location.Y)
-						}
-					);
-				}
+				//var knightB = pieceTextures.knightBlackTexture;
+				//if (cell.Location.Equals(new Point(1, 0)))
+				//{
+				//	pieces.Add(
+				//		new Knight(knightB, locationCheckerService)
+				//		{
+				//			Position = cell.SetPieceOrigin(knightB),
+				//			PieceColor = PieceColor.Black,
+				//			PieceType = PieceType.Knight,
+				//			Location = new Point(cell.Location.X, cell.Location.Y)
+				//		}
+				//	);
+				//}
 
-				if (cell.Location.Equals(new Point(6, 0)))
-				{
-					pieces.Add(
-						new Knight(knightB, locationCheckerService)
-						{
-							Position = cell.SetPieceOrigin(knightB),
-							PieceColor = PieceColor.Black,
-							PieceType = PieceType.Knight,
-							Location = new Point(cell.Location.X, cell.Location.Y)
-						}
-					);
-				}
+				//if (cell.Location.Equals(new Point(6, 0)))
+				//{
+				//	pieces.Add(
+				//		new Knight(knightB, locationCheckerService)
+				//		{
+				//			Position = cell.SetPieceOrigin(knightB),
+				//			PieceColor = PieceColor.Black,
+				//			PieceType = PieceType.Knight,
+				//			Location = new Point(cell.Location.X, cell.Location.Y)
+				//		}
+				//	);
+				//}
 
 				//// WHITE KNIGHTS
 				//var knightW = pieceTextures.knightWhiteTexture;

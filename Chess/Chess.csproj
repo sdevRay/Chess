@@ -44,9 +44,9 @@
   <ItemGroup>
     <Compile Include="Chess.cs" />
     <Compile Include="Sprites\Cells\ChessBoard.cs" />
-    <Compile Include="Sprites\Cells\ILocationCheckerService.cs" />
+    <Compile Include="LocationChecker\ILocationCheckerService.cs" />
     <Compile Include="Sprites\Pieces\Bishop.cs" />
-    <Compile Include="Sprites\Cells\LocationCheckerService.cs" />
+    <Compile Include="LocationChecker\LocationCheckerService.cs" />
     <Compile Include="Sprites\Pieces\King.cs" />
     <Compile Include="Sprites\Pieces\Knight.cs" />
     <Compile Include="Sprites\Pieces\Queen.cs" />
@@ -61,8 +61,10 @@
     <Compile Include="Types\Enumerations\PieceColor.cs" />
     <Compile Include="Types\Enumerations\PieceType.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
+    <Compile Include="Types\Models\Debug.cs" />
     <Compile Include="Types\Models\PieceTextures.cs" />
     <Compile Include="Types\Models\Player.cs" />
+    <Compile Include="Types\Models\PlayerAttributes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

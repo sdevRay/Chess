@@ -1,10 +1,11 @@
-﻿using Chess.Types.Constants;
+﻿using Chess.Sprites;
+using Chess.Types.Constants;
 using Chess.Types.Enumerations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Chess.Sprites.Cells
+namespace Chess.LocationChecker
 {
 	public class LocationCheckerService : ILocationCheckerService
 	{
@@ -99,6 +100,8 @@ namespace Chess.Sprites.Cells
 
 			return RemoveColorMatchingPieceLocations(pieces, pieceColor, aLoc);
 		}
+
+
 
 		public List<Point> CheckDown(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{

@@ -1,8 +1,9 @@
-﻿using Chess.Types.Enumerations;
+﻿using Chess.Sprites;
+using Chess.Types.Enumerations;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace Chess.Sprites.Cells
+namespace Chess.LocationChecker
 {
 	public interface ILocationCheckerService
 	{

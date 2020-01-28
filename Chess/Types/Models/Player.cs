@@ -6,6 +6,8 @@ namespace Chess.Types.Models
 	public class Player
 	{
 		public PieceColor CurrentPlayerColor;
+		public bool BlackChecked;
+		public bool WhiteChecked;
 		public bool IsChecked;
 
 		public Player(PieceColor currentPlayerColor)
@@ -13,11 +15,6 @@ namespace Chess.Types.Models
 			CurrentPlayerColor = currentPlayerColor;
 		}
 
-		public bool CheckIfChecked(Piece king)
-		{
-
-			return IsChecked;
-		}
 		public void SwitchPlayerColor()
 		{
 			if (CurrentPlayerColor.Equals(PieceColor.White))

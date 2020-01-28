@@ -1,8 +1,11 @@
 ﻿using Chess.Sprites.Cells;
+using Chess.Types.Enumerations;
 using Chess.Types.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
+using Chess.LocationChecker;
 
 namespace Chess.Sprites.Pieces
 {
@@ -17,23 +20,34 @@ namespace Chess.Sprites.Pieces
 		{
 			if (IsSelected)
 			{
-				SetAvailableLocations(pieces);
+				AvailableLocations.Clear();
+				AvailableLocations = (GetAvailableLocations(Location, pieces, PieceColor));
 			}
 
 			base.Update(gameTime, pieces, chessBoard, player);
 		}
 
-		public override void SetAvailableLocations(List<Piece> pieces)
+		public override List<Point> GetAvailableLocations(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
-			AvailableLocations.Clear();
-			AvailableLocations.AddRange(_locationCheckerService.CheckUpRight(Location, pieces, PieceColor));
-			AvailableLocations.AddRange(_locationCheckerService.CheckDownRight(Location, pieces, PieceColor));
-			AvailableLocations.AddRange(_locationCheckerService.CheckDownLeft(Location, pieces, PieceColor));
-			AvailableLocations.AddRange(_locationCheckerService.CheckUpLeft(Location, pieces, PieceColor));
-			AvailableLocations.AddRange(_locationCheckerService.CheckUp(Location, pieces, PieceColor));
-			AvailableLocations.AddRange(_locationCheckerService.CheckRight(Location, pieces, PieceColor));
-			AvailableLocations.AddRange(_locationCheckerService.CheckDown(Location, pieces, PieceColor));
-			AvailableLocations.AddRange(_locationCheckerService.CheckLeft(Location, pieces, PieceColor));	
+
+			if(AvailableLocations.Count() > 0)
+			{
+				return AvailableLocations;
+			}
+			else
+			{
+				return new List<List<Point>>()
+				{
+					_locationCheckerService.CheckUpRight(loc, pieces, pieceColor),
+					_locationCheckerService.CheckDownRight(loc, pieces, pieceColor),
+					_locationCheckerService.CheckDownLeft(loc, pieces, pieceColor),
+					_locationCheckerService.CheckUpLeft(loc, pieces, pieceColor),
+					_locationCheckerService.CheckUp(loc, pieces, pieceColor),
+					_locationCheckerService.CheckRight(loc, pieces, pieceColor),
+					_locationCheckerService.CheckDown(loc, pieces, pieceColor),
+					_locationCheckerService.CheckLeft(loc, pieces, pieceColor)
+				}.SelectMany(res => res).ToList();
+			}
 		}
 	}
 }
