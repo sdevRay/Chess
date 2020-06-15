@@ -6,9 +6,6 @@ namespace Chess.Types.Models
 	public class Player
 	{
 		public PieceColor CurrentPlayerColor;
-		public bool BlackChecked;
-		public bool WhiteChecked;
-		public bool IsChecked;
 
 		public Player(PieceColor currentPlayerColor)
 		{

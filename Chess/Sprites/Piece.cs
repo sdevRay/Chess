@@ -7,6 +7,7 @@ using Chess.Types.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -69,10 +70,7 @@ namespace Chess.Sprites
 						}
 
 						AvailableLocations.Clear();
-
-						//System.Diagnostics.Debug.WriteLine(availableLocation.ToString());
 					}
-
 				}
 			}
 
@@ -101,80 +99,13 @@ namespace Chess.Sprites
 			Position = chessBoard.FirstOrDefault(res => res.Location.Equals(Location)).SetPieceOrigin(Texture);
 		}
 
-		private List<Point> GetEnemyAvailableLocations(List<Piece> pieces, Player player)
-		{
-			var enemyPieces = pieces.Where(res => !res.PieceColor.Equals(player.CurrentPlayerColor));
-
-			List<Point> enemyAloc = new List<Point>();
-
-			foreach(var enemyPiece in enemyPieces)
-			{
-				enemyPiece.IsSelected = true;
-
-				if (enemyPiece.PieceType.Equals(PieceType.King))
-				{
-					enemyAloc.AddRange(enemyPiece.GetAvailableLocations(enemyPiece.Location, pieces, enemyPiece.PieceColor));
-				}
-
-				if (enemyPiece.PieceType.Equals(PieceType.Queen)) {
-					enemyAloc.AddRange(enemyPiece.GetAvailableLocations(enemyPiece.Location, pieces, enemyPiece.PieceColor));
-				}
-
-				enemyPiece.IsSelected = false;
-			}
-
-
-			return enemyAloc;
-		}
-
-
 		private void NewLocation(Cell cell, List<Piece> pieces, Player player, List<Cell> chessBoard)
 		{
 			if (PieceType.Pawn.Equals(PieceType))
 				(this as Pawn).InitialMove = false;
 
-			var friendlyKing = pieces.FirstOrDefault(res => res.PieceColor.Equals(player.CurrentPlayerColor) && res.PieceType.Equals(PieceType.King));
-
-			var enemyPieceAvailableLocations = GetEnemyAvailableLocations(pieces, player);
-
-			if (enemyPieceAvailableLocations.Any(res => friendlyKing.Location.Equals(res)))
-			{
-
-				player.IsChecked = true;
-				//PreviousLocation(chessBoard);
-				//return;
-			}
-
 			Position = cell.SetPieceOrigin(Texture);
 			Location = cell.Location;
-
-
-			// IF YOU MOVE A PIECE NEED TO CHECK IF IT EXPOSED SAME COLOR KING TO CHECK
-
-
-			if (PieceType.Equals(PieceType.Queen))
-			{
-
-				//(this as Queen).SetAvailableLocations(pieces.Where(res => res != this).ToList());
-
-				// FIND OUT IF THE ENEMY KING IS IN AVAIABLE LOCATIONS NOW
-				var enemyKing = pieces.FirstOrDefault(res => AvailableLocations.Contains(res.Location) && !res.PieceColor.Equals(player.CurrentPlayerColor) && res.PieceType.Equals(PieceType.King));
-				if (enemyKing != null)
-				{
-					// ENEMY KING IS IN CHECK
-				}
-
-			}
-
-			// MAYBE TURN ON FLAG WHEN ENEMY IS IN CHECK
-			// ONLY TURN OFF IF NEXT MOVE GETS OUT OF CHECK
-
-
-			// once the piece has moved to a new location
-			// check if the enemy king is in its new avaiable location
-			// that means your in check
-			// if so, the next move has to get the king out of check
-			// if it cant, checkmate
 
 			player.SwitchPlayerColor();
 		}

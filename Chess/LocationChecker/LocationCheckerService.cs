@@ -12,7 +12,7 @@ namespace Chess.LocationChecker
 		public List<Point> CheckPawnRange(Point loc, int movementRange, List<Piece> pieces, PieceColor pieceColor, bool initialMove)
 		{
 			var aLoc = new List<Point>() { loc };
-			var otherPieces = GetOtherPieces(pieces);
+			var otherPieces = GetOtherPieces(pieces).ToList();
 
 			var forward = new Point(loc.X, loc.Y += movementRange);
 			var forLeft = new Point(loc.X + 1, loc.Y);
@@ -39,6 +39,8 @@ namespace Chess.LocationChecker
 				}
 			});
 
+			RemoveOutOfBounds(aLoc);
+
 			return aLoc;
 		}
 
@@ -62,7 +64,9 @@ namespace Chess.LocationChecker
 				new Point(rangeNeg, rangeVerAdd),
 				new Point(rangeNeg, rangeVerSub),
 			});
-			
+
+			RemoveOutOfBounds(aLoc);
+
 			return RemoveColorMatchingPieceLocations(pieces, pieceColor, aLoc);
 		}
 
@@ -98,137 +102,231 @@ namespace Chess.LocationChecker
 				new Point(locXsub, rangeNeg)
 			});
 
+			RemoveOutOfBounds(aLoc);
+
 			return RemoveColorMatchingPieceLocations(pieces, pieceColor, aLoc);
 		}
 
-
-
-		public List<Point> CheckDown(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		private static void RemoveOutOfBounds(List<Point> aLoc)
 		{
-			var aLoc = new List<Point>();
+			aLoc.RemoveAll(res => res.X > Global.MAX_CELL_BOUNDARY || res.Y > Global.MAX_CELL_BOUNDARY || res.X < Global.MIN_CELL_BOUNDARY || res.Y < Global.MIN_CELL_BOUNDARY);
+		}
 
-			for (var y = loc.Y; y <= Global.MAX_CELL_BOUNDARY; y++)
+		public List<Point> CheckBishopRange(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		{
+			var aLocs = new List<Point>() { loc };
+			var otherPieces = GetOtherPieces(pieces);
+
+			CheckDownLeft(loc, pieceColor, aLocs, otherPieces);
+
+			CheckDownRight(loc, pieceColor, aLocs, otherPieces);
+
+			CheckUpLeft(loc, pieceColor, aLocs, otherPieces);
+
+			CheckUpRight(loc, pieceColor, aLocs, otherPieces);
+
+			return aLocs;
+		}
+
+		private static void CheckDownLeft(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
+		{
+			var x = loc.X;
+			var y = loc.Y;
+
+			while (true)
 			{
-				if (ProcessLocation(loc.X, y, aLoc, pieces, pieceColor))
+				if (!(x >= Global.MIN_CELL_BOUNDARY) || !(y <= Global.MAX_CELL_BOUNDARY))
+					break;
+
+				var aLoc = new Point(x--, y++);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
+					break;
+
+				aLocs.Add(aLoc);
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
 					break;
 			}
-
-			return aLoc;
 		}
 
-		public List<Point> CheckUp(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		private static void CheckDownRight(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
 		{
-			var aLoc = new List<Point>();
+			var x = loc.X;
+			var y = loc.Y;
 
-			for (var y = loc.Y; y >= Global.MIN_CELL_BOUNDARY; y--)
+			while (true)
 			{
-				if (ProcessLocation(loc.X, y, aLoc, pieces, pieceColor))
+				if (!(x <= Global.MAX_CELL_BOUNDARY) || !(y <= Global.MAX_CELL_BOUNDARY))
+					break;
+
+				var aLoc = new Point(x++, y++);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
+					break;
+
+				aLocs.Add(aLoc);
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
 					break;
 			}
-
-			return aLoc;
 		}
 
-		public List<Point> CheckRight(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		private static void CheckUpLeft(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
 		{
-			var aLoc = new List<Point>();
+			var x = loc.X;
+			var y = loc.Y;
 
-			for (var x = loc.X; x <= Global.MAX_CELL_BOUNDARY; x++)
+			while (true)
 			{
-				if (ProcessLocation(x, loc.Y, aLoc, pieces, pieceColor))
+				if (!(x >= Global.MIN_CELL_BOUNDARY) || !(y >= Global.MIN_CELL_BOUNDARY))
+					break;
+
+				var aLoc = new Point(x--, y--);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
+					break;
+
+				aLocs.Add(aLoc);
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
 					break;
 			}
-
-			return aLoc;
 		}
 
-		public List<Point> CheckLeft(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		private static void CheckUpRight(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
 		{
-			var aLoc = new List<Point>();
+			var x = loc.X;
+			var y = loc.Y;
 
-			for (var x = loc.X; x >= Global.MIN_CELL_BOUNDARY; x--)
+			while (true)
 			{
-				if (ProcessLocation(x, loc.Y, aLoc, pieces, pieceColor))
+				if (!(x <= Global.MAX_CELL_BOUNDARY) || !(y >= Global.MIN_CELL_BOUNDARY))
+					break;
+
+				var aLoc = new Point(x++, y--);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
+					break;
+
+				aLocs.Add(aLoc);
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
 					break;
 			}
-
-			return aLoc;
 		}
 
-		public List<Point> CheckDownLeft(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		public List<Point> CheckRookRange(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
-			var aLoc = new List<Point>();
+			var aLocs = new List<Point>() { loc };
 
-			do
+			var otherPieces = GetOtherPieces(pieces);
+
+			CheckRight(loc, pieceColor, aLocs, otherPieces);
+
+			CheckDown(loc, pieceColor, aLocs, otherPieces);
+
+			CheckLeft(loc, pieceColor, aLocs, otherPieces);
+
+			CheckUp(loc, pieceColor, aLocs, otherPieces);
+
+			return aLocs;
+		}
+
+		private static void CheckRight(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
+		{
+			for (var x = loc.X; x <= Global.MAX_CELL_BOUNDARY; x++) // CHECK RIGHT
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
+				var aLoc = new Point(x, loc.Y);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
 					break;
 
-				loc.X -= 1;
-				loc.Y++;
+				aLocs.Add(aLoc);
 
-			} while (loc.X >= Global.MIN_CELL_BOUNDARY);
-
-			return aLoc;
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
+					break;
+			}
 		}
 
-		public List<Point> CheckUpRight(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		private static void CheckDown(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
 		{
-			var aLoc = new List<Point>();
-
-			do
+			for (var y = loc.Y; y <= Global.MAX_CELL_BOUNDARY; y++) // CHECK DOWN
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
+				var aLoc = new Point(loc.X, y);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
 					break;
 
-				loc.X += 1;
-				loc.Y--;
+				aLocs.Add(aLoc);
 
-			} while (loc.Y >= Global.MIN_CELL_BOUNDARY);
-
-			return aLoc;
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
+					break;
+			}
 		}
 
-		public List<Point> CheckUpLeft(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		private static void CheckLeft(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
 		{
-			var aLoc = new List<Point>();
-
-			do
+			for (var x = loc.X; x >= Global.MIN_CELL_BOUNDARY; x--) // CHECK LEFT
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
+				var aLoc = new Point(x, loc.Y);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
 					break;
 
-				loc.X -= 1;
-				loc.Y--;
+				aLocs.Add(aLoc);
 
-			} while (loc.Y >= Global.MIN_CELL_BOUNDARY);
-
-			return aLoc;
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
+					break;
+			}
 		}
 
-		public List<Point> CheckDownRight(Point loc, List<Piece> pieces, PieceColor pieceColor)
+		private static void CheckUp(Point loc, PieceColor pieceColor, List<Point> aLocs, IEnumerable<Piece> otherPieces)
 		{
-			var aLoc = new List<Point>();
-
-			do
+			for (var y = loc.Y; y >= Global.MIN_CELL_BOUNDARY; y--) // CHECK UP
 			{
-				if (ProcessLocation(loc.X, loc.Y, aLoc, pieces, pieceColor))
+				var aLoc = new Point(loc.X, y);
+
+				if (aLoc.Equals(loc))
+					continue;
+
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && res.PieceColor.Equals(pieceColor)))
 					break;
 
-				loc.X += 1;
-				loc.Y++;
+				aLocs.Add(aLoc);
 
-			} while (loc.X <= Global.MAX_CELL_BOUNDARY);
-
-			return aLoc;
+				if (otherPieces.Any(res => res.Location.Equals(aLoc) && !res.PieceColor.Equals(pieceColor)))
+					break;
+			}
 		}
 
-		private static List<Piece> GetOtherPieces(List<Piece> pieces)
+		private IEnumerable<Piece> GetOtherPieces(List<Piece> pieces)
 		{
-			return pieces.Where(res => !res.IsSelected).ToList();
+			return pieces.Where(res => !res.IsSelected);
 		}
 
-		private static List<Point> RemoveColorMatchingPieceLocations(List<Piece> pieces, PieceColor pieceColor, List<Point> aLoc)
+		private List<Point> RemoveColorMatchingPieceLocations(List<Piece> pieces, PieceColor pieceColor, List<Point> aLoc)
 		{
 			var colorMatchingPieceLocations = GetOtherPieces(pieces)
 				.Where(res => aLoc.Contains(res.Location))
@@ -236,26 +334,6 @@ namespace Chess.LocationChecker
 				.Select(res => res.Location);
 
 			return aLoc.Where(res => !colorMatchingPieceLocations.Contains(res)).ToList();
-		}
-
-		private static bool ProcessLocation(int x, int y, List<Point> aLoc, List<Piece> pieces, PieceColor pieceColor)
-		{
-			var add = false;
-			var skip = false;
-			var loc = new Point(x, y);
-
-			var otherPiece = GetOtherPieces(pieces).FirstOrDefault(res => res.Location.Equals(loc));
-			if (otherPiece != null)
-			{
-				add = true;
-				if(otherPiece.PieceColor.Equals(pieceColor))
-					skip = true;
-			}
-
-			if(!skip)
-				aLoc.Add(new Point(x, y));
-
-			return add;
 		}
 	}
 }

@@ -12,7 +12,6 @@ namespace Chess.Sprites.Cells
 {
 	public class ChessBoard
 	{
-
 		private readonly int _cellCount = 8;
 		private Texture2D _cellTexture;
 		public List<Debug> debug;
@@ -90,35 +89,35 @@ namespace Chess.Sprites.Cells
 
 			foreach (var cell in chessBoard)
 			{
-				//// PAWNS
-				//var pawnW = pieceTextures.pawnWhiteTexture;
-				//if (GetPawnWhiteLocations().Contains(cell.Location))
-				//{
-				//	pieces.Add(
-				//		new Pawn(pawnW, locationCheckerService, cell.Location)
-				//		{
-				//			Position = cell.SetPieceOrigin(pawnW),
-				//			PieceColor = PieceColor.White,
-				//			PieceType = PieceType.Pawn,
-				//		}
-				//	);
-				//}
+				// PAWNS
+				var pawnW = pieceTextures.PawnWhiteTexture;
+				if (GetPawnWhiteLocations().Contains(cell.Location))
+				{
+					pieces.Add(
+						new Pawn(pawnW, locationCheckerService, cell.Location)
+						{
+							Position = cell.SetPieceOrigin(pawnW),
+							PieceColor = PieceColor.White,
+							PieceType = PieceType.Pawn,
+						}
+					);
+				}
 
-				//var pawnB = pieceTextures.pawnBlackTexture;
-				//if (GetPawnBlackLocations().Contains(cell.Location))
-				//{
-				//	pieces.Add(
-				//		new Pawn(pawnB, locationCheckerService, cell.Location)
-				//		{
-				//			Position = cell.SetPieceOrigin(pawnB),
-				//			PieceColor = PieceColor.Black,
-				//			PieceType = PieceType.Pawn,
-				//		}
-				//	);
-				//}
+				var pawnB = pieceTextures.PawnBlackTexture;
+				if (GetPawnBlackLocations().Contains(cell.Location))
+				{
+					pieces.Add(
+						new Pawn(pawnB, locationCheckerService, cell.Location)
+						{
+							Position = cell.SetPieceOrigin(pawnB),
+							PieceColor = PieceColor.Black,
+							PieceType = PieceType.Pawn,
+						}
+					);
+				}
 
 				// KINGS
-				var kingB = pieceTextures.kingBlackTexture;
+				var kingB = pieceTextures.KingBlackTexture;
 				if (cell.Location.Equals(new Point(4, 0)))
 				{
 					pieces.Add(
@@ -132,7 +131,7 @@ namespace Chess.Sprites.Cells
 					);
 				}
 
-				var kingW = pieceTextures.kingWhiteTexture;
+				var kingW = pieceTextures.KingWhiteTexture;
 				if (cell.Location.Equals(new Point(4, 7)))
 				{
 					pieces.Add(
@@ -147,7 +146,7 @@ namespace Chess.Sprites.Cells
 				}
 
 				// QUEENS
-				var queenB = pieceTextures.queenBlackTexture;
+				var queenB = pieceTextures.QueenBlackTexture;
 				if (cell.Location.Equals(new Point(3, 0)))
 				{
 					pieces.Add(
@@ -161,7 +160,7 @@ namespace Chess.Sprites.Cells
 					);
 				}
 
-				var queenW = pieceTextures.queenWhiteTexture;
+				var queenW = pieceTextures.QueenWhiteTexture;
 				if (cell.Location.Equals(new Point(3, 7)))
 				{
 					pieces.Add(
@@ -175,173 +174,173 @@ namespace Chess.Sprites.Cells
 					);
 				}
 
-				//// BLACK ROOKS
-				//var rookB = pieceTextures.rookBlackTexture;
-				//if (cell.Location.Equals(new Point(0, 0)))
-				//{
-				//	pieces.Add(
-				//		new Rook(rookB, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(rookB),
-				//			PieceColor = PieceColor.Black,
-				//			PieceType = PieceType.Rook,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				// BLACK ROOKS
+				var rookB = pieceTextures.RookBlackTexture;
+				if (cell.Location.Equals(new Point(0, 0)))
+				{
+					pieces.Add(
+						new Rook(rookB, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(rookB),
+							PieceColor = PieceColor.Black,
+							PieceType = PieceType.Rook,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//if (cell.Location.Equals(new Point(7, 0)))
-				//{
-				//	pieces.Add(
-				//		new Rook(rookB, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(rookB),
-				//			PieceColor = PieceColor.Black,
-				//			PieceType = PieceType.Rook,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				if (cell.Location.Equals(new Point(7, 0)))
+				{
+					pieces.Add(
+						new Rook(rookB, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(rookB),
+							PieceColor = PieceColor.Black,
+							PieceType = PieceType.Rook,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//// WHITE ROOKS
-				//var rookW = pieceTextures.rookWhiteTexture;
-				//if (cell.Location.Equals(new Point(0, 7)))
-				//{
-				//	pieces.Add(
-				//		new Rook(rookW, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(rookW),
-				//			PieceColor = PieceColor.White,
-				//			PieceType = PieceType.Rook,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				// WHITE ROOKS
+				var rookW = pieceTextures.RookWhiteTexture;
+				if (cell.Location.Equals(new Point(0, 7)))
+				{
+					pieces.Add(
+						new Rook(rookW, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(rookW),
+							PieceColor = PieceColor.White,
+							PieceType = PieceType.Rook,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//if (cell.Location.Equals(new Point(7, 7)))
-				//{
-				//	pieces.Add(
-				//		new Rook(rookW, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(rookW),
-				//			PieceColor = PieceColor.White,
-				//			PieceType = PieceType.Rook,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				if (cell.Location.Equals(new Point(7, 7)))
+				{
+					pieces.Add(
+						new Rook(rookW, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(rookW),
+							PieceColor = PieceColor.White,
+							PieceType = PieceType.Rook,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//// BLACK BISHOPS
-				//var bishopB = pieceTextures.bishopBlackTexture;
-				//if (cell.Location.Equals(new Point(2, 0)))
-				//{
-				//	pieces.Add(
-				//		new Bishop(bishopB, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(bishopB),
-				//			PieceColor = PieceColor.Black,
-				//			PieceType = PieceType.Bishop,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				// BLACK BISHOPS
+				var bishopB = pieceTextures.BishopBlackTexture;
+				if (cell.Location.Equals(new Point(2, 0)))
+				{
+					pieces.Add(
+						new Bishop(bishopB, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(bishopB),
+							PieceColor = PieceColor.Black,
+							PieceType = PieceType.Bishop,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//if (cell.Location.Equals(new Point(5, 0)))
-				//{
-				//	pieces.Add(
-				//		new Bishop(bishopB, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(bishopB),
-				//			PieceColor = PieceColor.Black,
-				//			PieceType = PieceType.Bishop,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				if (cell.Location.Equals(new Point(5, 0)))
+				{
+					pieces.Add(
+						new Bishop(bishopB, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(bishopB),
+							PieceColor = PieceColor.Black,
+							PieceType = PieceType.Bishop,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//// WHITE BISHOPS
-				//var bishopW = pieceTextures.bishopWhiteTexture;
-				//if (cell.Location.Equals(new Point(2, 7)))
-				//{
-				//	pieces.Add(
-				//		new Bishop(bishopW, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(bishopW),
-				//			PieceColor = PieceColor.White,
-				//			PieceType = PieceType.Bishop,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				// WHITE BISHOPS
+				var bishopW = pieceTextures.BishopWhiteTexture;
+				if (cell.Location.Equals(new Point(2, 7)))
+				{
+					pieces.Add(
+						new Bishop(bishopW, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(bishopW),
+							PieceColor = PieceColor.White,
+							PieceType = PieceType.Bishop,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//if (cell.Location.Equals(new Point(5, 7)))
-				//{
-				//	pieces.Add(
-				//		new Bishop(bishopW, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(bishopW),
-				//			PieceColor = PieceColor.White,
-				//			PieceType = PieceType.Bishop,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				if (cell.Location.Equals(new Point(5, 7)))
+				{
+					pieces.Add(
+						new Bishop(bishopW, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(bishopW),
+							PieceColor = PieceColor.White,
+							PieceType = PieceType.Bishop,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//// BLACK KNIGHTS
-				//var knightB = pieceTextures.knightBlackTexture;
-				//if (cell.Location.Equals(new Point(1, 0)))
-				//{
-				//	pieces.Add(
-				//		new Knight(knightB, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(knightB),
-				//			PieceColor = PieceColor.Black,
-				//			PieceType = PieceType.Knight,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				// BLACK KNIGHTS
+				var knightB = pieceTextures.KnightBlackTexture;
+				if (cell.Location.Equals(new Point(1, 0)))
+				{
+					pieces.Add(
+						new Knight(knightB, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(knightB),
+							PieceColor = PieceColor.Black,
+							PieceType = PieceType.Knight,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//if (cell.Location.Equals(new Point(6, 0)))
-				//{
-				//	pieces.Add(
-				//		new Knight(knightB, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(knightB),
-				//			PieceColor = PieceColor.Black,
-				//			PieceType = PieceType.Knight,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				if (cell.Location.Equals(new Point(6, 0)))
+				{
+					pieces.Add(
+						new Knight(knightB, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(knightB),
+							PieceColor = PieceColor.Black,
+							PieceType = PieceType.Knight,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//// WHITE KNIGHTS
-				//var knightW = pieceTextures.knightWhiteTexture;
-				//if (cell.Location.Equals(new Point(1, 7)))
-				//{
-				//	pieces.Add(
-				//		new Knight(knightW, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(knightW),
-				//			PieceColor = PieceColor.White,
-				//			PieceType = PieceType.Knight,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				// WHITE KNIGHTS
+				var knightW = pieceTextures.KnightWhiteTexture;
+				if (cell.Location.Equals(new Point(1, 7)))
+				{
+					pieces.Add(
+						new Knight(knightW, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(knightW),
+							PieceColor = PieceColor.White,
+							PieceType = PieceType.Knight,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 
-				//if (cell.Location.Equals(new Point(6, 7)))
-				//{
-				//	pieces.Add(
-				//		new Knight(knightW, locationCheckerService)
-				//		{
-				//			Position = cell.SetPieceOrigin(knightW),
-				//			PieceColor = PieceColor.White,
-				//			PieceType = PieceType.Knight,
-				//			Location = new Point(cell.Location.X, cell.Location.Y)
-				//		}
-				//	);
-				//}
+				if (cell.Location.Equals(new Point(6, 7)))
+				{
+					pieces.Add(
+						new Knight(knightW, locationCheckerService)
+						{
+							Position = cell.SetPieceOrigin(knightW),
+							PieceColor = PieceColor.White,
+							PieceType = PieceType.Knight,
+							Location = new Point(cell.Location.X, cell.Location.Y)
+						}
+					);
+				}
 			}
 
 			return pieces;

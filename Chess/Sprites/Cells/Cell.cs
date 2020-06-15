@@ -5,7 +5,7 @@ namespace Chess.Sprites.Cells
 {
 	public class Cell : Sprite
 	{
-		public Color HighlightColor = Color.LightPink;
+		public Color HighlightColor = Color.DarkSalmon;
 		private Color _defaultColor;
 		public Color DefaultColor
 		{

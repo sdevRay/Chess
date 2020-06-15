@@ -20,8 +20,7 @@ namespace Chess.Sprites.Pieces
 		{
 			if (IsSelected)
 			{
-				AvailableLocations.Clear();
-				AvailableLocations = (GetAvailableLocations(Location, pieces, PieceColor));
+				AvailableLocations = GetAvailableLocations(Location, pieces, PieceColor);
 			}
 
 			base.Update(gameTime, pieces, chessBoard, player);
@@ -29,25 +28,11 @@ namespace Chess.Sprites.Pieces
 
 		public override List<Point> GetAvailableLocations(Point loc, List<Piece> pieces, PieceColor pieceColor)
 		{
-
-			if(AvailableLocations.Count() > 0)
-			{
-				return AvailableLocations;
-			}
-			else
-			{
-				return new List<List<Point>>()
+			return new List<List<Point>>()
 				{
-					_locationCheckerService.CheckUpRight(loc, pieces, pieceColor),
-					_locationCheckerService.CheckDownRight(loc, pieces, pieceColor),
-					_locationCheckerService.CheckDownLeft(loc, pieces, pieceColor),
-					_locationCheckerService.CheckUpLeft(loc, pieces, pieceColor),
-					_locationCheckerService.CheckUp(loc, pieces, pieceColor),
-					_locationCheckerService.CheckRight(loc, pieces, pieceColor),
-					_locationCheckerService.CheckDown(loc, pieces, pieceColor),
-					_locationCheckerService.CheckLeft(loc, pieces, pieceColor)
+					_locationCheckerService.CheckRookRange(loc, pieces, pieceColor),
+					_locationCheckerService.CheckBishopRange(loc, pieces, pieceColor),
 				}.SelectMany(res => res).ToList();
-			}
 		}
 	}
 }
