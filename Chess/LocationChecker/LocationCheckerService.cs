@@ -2,6 +2,7 @@
 using Chess.Types.Constants;
 using Chess.Types.Enumerations;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,8 +32,9 @@ namespace Chess.LocationChecker
 			if (!otherPieces.Any(res => res.Location.Equals(forward)))
 				aLoc.Add(forward);
 
-			otherPieces.ForEach(res => { 
-				if(res.Location.Equals(forLeft) || res.Location.Equals(forRight))
+			otherPieces.ForEach(res =>
+			{
+				if (res.Location.Equals(forLeft) || res.Location.Equals(forRight))
 				{
 					if (!res.PieceColor.Equals(pieceColor))
 						aLoc.Add(res.Location);
@@ -328,10 +330,10 @@ namespace Chess.LocationChecker
 
 		private List<Point> RemoveColorMatchingPieceLocations(List<Piece> pieces, PieceColor pieceColor, List<Point> aLoc)
 		{
-			var colorMatchingPieceLocations = GetOtherPieces(pieces)
-				.Where(res => aLoc.Contains(res.Location))
-				.Where(res => res.PieceColor.Equals(pieceColor))
-				.Select(res => res.Location);
+			var colorMatchingPieceLocations =
+			GetOtherPieces(pieces)
+			.Where(res => aLoc.Contains(res.Location) && res.PieceColor.Equals(pieceColor))
+			.Select(res => res.Location);
 
 			return aLoc.Where(res => !colorMatchingPieceLocations.Contains(res)).ToList();
 		}

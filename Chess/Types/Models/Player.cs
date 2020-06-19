@@ -6,7 +6,7 @@ namespace Chess.Types.Models
 	public class Player
 	{
 		public PieceColor CurrentPlayerColor;
-
+		public bool GameStart = false;
 		public Player(PieceColor currentPlayerColor)
 		{
 			CurrentPlayerColor = currentPlayerColor;

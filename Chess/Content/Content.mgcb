@@ -32,7 +32,7 @@
 /processorParam:TextureFormat=Compressed
 /build:Font.spritefont
 
-#begin Pieces/Bishop_Black.png
+#begin Pieces/Black_Bishop.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -42,9 +42,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Bishop_Black.png
+/build:Pieces/Black_Bishop.png
 
-#begin Pieces/Bishop_White.png
+#begin Pieces/Black_King.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -54,9 +54,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Bishop_White.png
+/build:Pieces/Black_King.png
 
-#begin Pieces/King_Black.png
+#begin Pieces/Black_Knight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -66,9 +66,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/King_Black.png
+/build:Pieces/Black_Knight.png
 
-#begin Pieces/King_White.png
+#begin Pieces/Black_Pawn.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,9 +78,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/King_White.png
+/build:Pieces/Black_Pawn.png
 
-#begin Pieces/Knight_Black.png
+#begin Pieces/Black_Queen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -90,9 +90,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Knight_Black.png
+/build:Pieces/Black_Queen.png
 
-#begin Pieces/Knight_White.png
+#begin Pieces/Black_Rook.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,9 +102,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Knight_White.png
+/build:Pieces/Black_Rook.png
 
-#begin Pieces/Pawn_Black.png
+#begin Pieces/White_Bishop.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -114,9 +114,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Pawn_Black.png
+/build:Pieces/White_Bishop.png
 
-#begin Pieces/Pawn_White.png
+#begin Pieces/White_King.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -126,9 +126,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Pawn_White.png
+/build:Pieces/White_King.png
 
-#begin Pieces/Queen_Black.png
+#begin Pieces/White_Knight.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -138,9 +138,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Queen_Black.png
+/build:Pieces/White_Knight.png
 
-#begin Pieces/Queen_White.png
+#begin Pieces/White_Pawn.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -150,9 +150,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Queen_White.png
+/build:Pieces/White_Pawn.png
 
-#begin Pieces/Rook_Black.png
+#begin Pieces/White_Queen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -162,9 +162,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Rook_Black.png
+/build:Pieces/White_Queen.png
 
-#begin Pieces/Rook_White.png
+#begin Pieces/White_Rook.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -174,5 +174,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Pieces/Rook_White.png
+/build:Pieces/White_Rook.png
 

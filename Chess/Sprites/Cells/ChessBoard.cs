@@ -126,7 +126,7 @@ namespace Chess.Sprites.Cells
 							Position = cell.SetPieceOrigin(kingB),
 							PieceColor = PieceColor.Black,
 							PieceType = PieceType.King,
-							Location = new Point(cell.Location.X, cell.Location.Y)
+							Location = new Point(cell.Location.X, cell.Location.Y)			
 						}
 					);
 				}

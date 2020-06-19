@@ -29,7 +29,7 @@ namespace Chess.Sprites.Pieces
 
 		public override void Update(GameTime gameTime, List<Piece> pieces, List<Cell> chessBoard, Player player)
 		{
-			if (IsSelected)
+			if (IsSelected || AvailableLocations == null)
 			{
 				AvailableLocations = GetAvailableLocations(Location, pieces, PieceColor);
 			}
