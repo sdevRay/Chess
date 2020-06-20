@@ -1,8 +1,8 @@
 # Chess v1.0
 ### A two-player strategy board game played on a checkered board with 64 squares arranged in an 8×8 grid.
 
--MonoGame tutorials from YouTuber [Oyyou](https://www.youtube.com/channel/UCEXxtHhSvUmz2qcZoWay9kw)
--Graphics Credit to Wikipedia user [Cburnett](https://en.wikipedia.org/wiki/User:Cburnett)
+- MonoGame tutorials from YouTuber [Oyyou](https://www.youtube.com/channel/UCEXxtHhSvUmz2qcZoWay9kw)
+- Graphics Credit to Wikipedia user [Cburnett](https://en.wikipedia.org/wiki/User:Cburnett)
 
   When I first started learning to be a software developer the book [Think Like a Programmer](https://www.amazon.com/Think-Like-Programmer-Introduction-Creative/dp/1593274246) was recommended to me. One of the chapters discussed how the game of Chess can help you logically solve problems. I started playing with some friends, we even set up a little tournament. To pay homage to Chess I tried to make it.
 
