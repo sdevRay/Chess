@@ -1,6 +1,6 @@
 # Chess v1.0
 ### A two-player strategy board game played on a checkered board with 64 squares arranged in an 8×8 grid.
-### Hotseat multiplayer mode
+### Hotseat multiplayer mode, two players play on the same device taking turns playing the game
 
 [Download](https://drive.google.com/file/d/1lZj3f6nWpcC_BZqdJXtrDloCC8gUsHTG/view?usp=sharing)
 
