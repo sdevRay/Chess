@@ -1,6 +1,8 @@
 # Chess v1.0
 ### A two-player strategy board game played on a checkered board with 64 squares arranged in an 8×8 grid.
-[Download](https://drive.google.com/file/d/1F-LsqdmTYUw6Q6C-6dGreVjQzC0GRhKz/view?usp=sharing)
+### Hotseat multiplayer mode
+
+[Download](https://drive.google.com/file/d/1lZj3f6nWpcC_BZqdJXtrDloCC8gUsHTG/view?usp=sharing)
 
 Credits:
 - MonoGame tutorials from YouTuber [Oyyou](https://www.youtube.com/channel/UCEXxtHhSvUmz2qcZoWay9kw)
