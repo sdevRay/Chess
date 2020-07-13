@@ -2,6 +2,8 @@
 ### A two-player strategy board game played on a checkered board with 64 squares arranged in an 8×8 grid.
 ### Hotseat multiplayer mode, two players play on the same device taking turns playing the game
 
+![Chess Screenshot](https://github.com/sdevRay/sdevRay.github.io/blob/master/assets/chess.png?raw=true)
+
 [Download](https://drive.google.com/file/d/1lZj3f6nWpcC_BZqdJXtrDloCC8gUsHTG/view?usp=sharing)
 
 Credits:
